@@ -1,0 +1,19 @@
+﻿<Window x:Class="materials_management.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:materials_management"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="1300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="291*"/>
+            <ColumnDefinition Width="31*"/>
+            <ColumnDefinition Width="478*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock HorizontalAlignment="Left" Margin="22,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Text="자재관리 시스템"><Run Language="ko-kr"/></TextBlock>
+        
+
+    </Grid>
+</Window>
