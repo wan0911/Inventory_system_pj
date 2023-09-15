@@ -29,7 +29,7 @@
             <Button Content="삭제" Background="#FF828AA9" Canvas.Left="1141" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" />
             <TextBlock TextWrapping="Wrap" Text="총 건" RenderTransformOrigin="0.321,0.69" Canvas.Left="10" Canvas.Top="21" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <!-- 데이터 뷰 -->
-            <DataGrid  x:Name="materialDataGrid" Height="397" Width="1186"  Canvas.Top="42" Canvas.Left="10" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <DataGrid  x:Name="materialDataGrid" Height="397" Width="1186"  Canvas.Top="42" Canvas.Left="10" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="자재코드" Binding="{Binding MaterialCode}" />
                     <DataGridTextColumn Header="자재명" Binding="{Binding MaterialName}" />

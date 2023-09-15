@@ -47,3 +47,5 @@ C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_man
 C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.genruntimeconfig.cache
 C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\ref\materials_management.dll
 C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\MaterialGroupRegisterWindow.g.cs
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\MaterialGroupRegisterWindow.baml

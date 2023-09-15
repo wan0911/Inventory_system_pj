@@ -123,6 +123,7 @@ namespace materials_management
                     }
                 }
                 return codeNames;
+                int a = 0;
             }
 
             // db에서 자재정보 가져오기
@@ -160,9 +161,7 @@ namespace materials_management
                         };
 
                         // 생성한 MaterialInfo 객체를 ObservableCollection에 추가
-                        MessageBox.Show($"{materialInfo[0]}");
                         materialInfoList.Add(materialInfo);
-
                     }
                 }
 
