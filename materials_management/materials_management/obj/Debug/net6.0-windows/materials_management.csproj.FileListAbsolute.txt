@@ -18,3 +18,32 @@ C:\Users\User\Desktop\인턴 자료\2차 과제\materials_management\materials_m
 C:\Users\User\Desktop\인턴 자료\2차 과제\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.pdb
 C:\Users\User\Desktop\인턴 자료\2차 과제\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.genruntimeconfig.cache
 C:\Users\User\Desktop\인턴 자료\2차 과제\materials_management\materials_management\obj\Debug\net6.0-windows\ref\materials_management.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management_MarkupCompile.cache
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management_MarkupCompile.lref
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\refint\materials_management.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.pdb
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\materials_management.exe
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\materials_management.deps.json
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\materials_management.runtimeconfig.json
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\materials_management.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\materials_management.pdb
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\System.Data.SqlClient.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\runtimes\win-arm64\native\sni.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\runtimes\win-x64\native\sni.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\runtimes\win-x86\native\sni.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.g.resources
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.AssemblyInfo.cs
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.csproj.CopyComplete
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.genruntimeconfig.cache
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\ref\materials_management.dll
+C:\Users\User\Desktop\git\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs

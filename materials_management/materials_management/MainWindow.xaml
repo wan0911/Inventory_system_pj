@@ -6,36 +6,43 @@
         xmlns:local="clr-namespace:materials_management"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1300">
-    <Grid Margin="0,0,1107,628">
 
-        <TextBlock HorizontalAlignment="Right" Margin="0,25,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Text="자재관리 시스템" FontWeight="Bold"><Run Language="ko-kr"/></TextBlock>
+    <Grid Margin="0,0,0,-6">
 
-        <TextBox TextWrapping="Wrap" Text="TextBox" Width="120" Margin="104,61,249,606"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,37,1117,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Text="자재관리 시스템" FontWeight="Bold"><Run Language="ko-kr"/></TextBlock>
         <!-- 조회 탭 -->
-        <Canvas Margin="51,66,-1064,-74" Background="AliceBlue">
+        <Canvas Margin="51,66,57,562" Background="AliceBlue">
             <TextBlock TextWrapping="Wrap" Text="자재코드" RenderTransformOrigin="0.321,0.69" Canvas.Left="35" Canvas.Top="21" FontWeight="Bold"/>
             <TextBox Height="22"  FontSize="12" VerticalContentAlignment="Center" Canvas.Left="104" TextWrapping="Wrap" Text="TextBox" Canvas.Top="18" Width="135" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBlock TextWrapping="Wrap" Text="자재명" RenderTransformOrigin="0.321,0.69" Canvas.Left="314" Canvas.Top="21" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <TextBox Height="22"  FontSize="12" VerticalContentAlignment="Center" Canvas.Left="371" TextWrapping="Wrap" Text="TextBox" Canvas.Top="18" Width="135" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <TextBlock TextWrapping="Wrap" Text="자재그룹" RenderTransformOrigin="0.321,0.69" Canvas.Left="579" Canvas.Top="23" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Width="120" Canvas.Left="649" Canvas.Top="18">
-
-            </ComboBox>
+            <ComboBox x:Name="MGSearchCombo" ItemsSource="{Binding Combo}" Width="120" Canvas.Left="649" Canvas.Top="18" />
             <TextBlock TextWrapping="Wrap" Text="사용여부" RenderTransformOrigin="0.321,0.69" Canvas.Left="856" Canvas.Top="23" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox Width="120" Canvas.Left="926" Canvas.Top="18" HorizontalAlignment="Left" VerticalAlignment="Top">
             </ComboBox>
-            <Button Content="검색" Background="#FF828AA9" Canvas.Left="1108" Canvas.Top="19" HorizontalAlignment="Left" VerticalAlignment="Top" Width="68" Foreground="White" />
+            <Button x:Name="SearchBtn" Content="검색" Background="#FF828AA9" Canvas.Left="1108" Canvas.Top="19" HorizontalAlignment="Left" VerticalAlignment="Top" Width="68" Foreground="White" />
         </Canvas>
-        <Canvas Margin="51,162,-1064,-610" Background="#FFFCFDFD">
-            <Button Content="자재그룹 관리" Background="#FF828AA9" Canvas.Left="980" Canvas.Top="10" Width="96" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" />
-            <Button Content="추가" Background="#FF828AA9" Canvas.Left="1081" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" Click="Button_Click" BorderBrush="{x:Null}" />
-            <Button Content="삭제" Background="#FF828AA9" Canvas.Left="1141" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" Click="Button_Click" BorderBrush="{x:Null}" />
+        <Canvas Margin="51,162,31,22" Background="#FFFCFDFD">
+            <Button x:Name="MaterialGroupBtn" Content="자재그룹 관리" Background="#FF828AA9" Canvas.Left="980" Canvas.Top="10" Width="96" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" Click="MaterialGroupBtn_Click" />
+            <Button Content="추가" Background="#FF828AA9" Canvas.Left="1081" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" />
+            <Button Content="삭제" Background="#FF828AA9" Canvas.Left="1141" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" />
             <TextBlock TextWrapping="Wrap" Text="총 건" RenderTransformOrigin="0.321,0.69" Canvas.Left="10" Canvas.Top="21" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <DataGrid Height="397" Width="1186" d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Top="42" Canvas.Left="10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Button Content="초기화" Background="#FF828AA9" Canvas.Left="1081" Canvas.Top="444" Width="55" Foreground="White" Height="22" FontWeight="Bold" Click="Button_Click" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <Button Content="저장" Background="#FF828AA9" Canvas.Left="1141" Canvas.Top="444" Width="55" Foreground="White" Height="22" FontWeight="Bold" Click="Button_Click" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <!-- 데이터 뷰 -->
+            <DataGrid  x:Name="materialDataGrid" Height="397" Width="1186"  Canvas.Top="42" Canvas.Left="10" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="자재코드" Binding="{Binding MaterialCode}" />
+                    <DataGridTextColumn Header="자재명" Binding="{Binding MaterialName}" />
+                    <DataGridTextColumn Header="자재그룹" Binding="{Binding MaterialGroup}" />
+                    <DataGridTextColumn Header="사용여부" Binding="{Binding MaterialUseFlag}" />
+                    <DataGridTextColumn Header="등록일" Binding="{Binding MaterialCrtDt}" />
+                    <DataGridTextColumn Header="최종수정일"/>
+                    <!--<DataGridComboBoxColumn Header="자재그룹2" SelectedItemBinding="{Binding Combo}" />-->
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Content="초기화" Background="#FF828AA9" Canvas.Left="1081" Canvas.Top="444" Width="55" Foreground="White" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button Content="저장" Background="#FF828AA9" Canvas.Left="1141" Canvas.Top="444" Width="55" Foreground="White" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Canvas>
-        <!-- 데이터 뷰 -->
 
 
     </Grid>
