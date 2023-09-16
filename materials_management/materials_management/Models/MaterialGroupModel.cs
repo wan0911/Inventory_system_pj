@@ -29,5 +29,19 @@ namespace materials_management.Models
             set { _materialGroupSelection = value; }
             get { return _materialGroupSelection; }
         }
+
+        private DateTime _materiaGroupCreateDate;           // 생성일
+        public DateTime MaterialGroupCreateDate
+        {
+            set { _materiaGroupCreateDate = value; }
+            get { return _materiaGroupCreateDate; }
+        }
+
+        private DateTime _materialGroupUpdateDate;           // 수정일
+        public DateTime MaterialGroupUpdateDate
+        {
+            set { _materialGroupUpdateDate = value; }
+            get { return _materialGroupUpdateDate; }
+        }
     }
 }

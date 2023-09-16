@@ -20,112 +20,166 @@ namespace materials_management.Models
 {
     public class DatabaseModel: ObservableObject
     {
+        private string DbSource = "DESKTOP-E2KPEDB\\SQLEXPRESS"; // DB address
+        private string DbName = "sampledb"; // DB database name
+        private string DbUser = "sa";    // DB user name
+        private string DbPassword = "q1234"; // DB pw
 
-        // 자재그룹명 데이터만 가져오기 -> combobox
-        //public class ComboList
+        private string connectionString;
+
+        /* db 연결 */
+        // 싱글톤 패턴 적용 필요
+        private static DatabaseModel conn;
+
+        private DatabaseModel() { }
+
+        public static DatabaseModel Getins()
+        {
+            if (conn == null)
+            {
+                conn = new DatabaseModel();
+            }
+            return conn;
+        }
+
+        public void Connect()
+        {
+            connectionString = string.Format("Data Source={0};Initial Catalog={1};User ID={2};Password={3};", DbSource, DbName, DbUser, DbPassword);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("Connection successful.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error connecting to database: " + ex.Message);
+                }
+
+                connection.Close();
+            }
+        }
+
+
+
+        /* 자재그룹 데이터 가져오기 */
+        public ObservableCollection<MaterialGroup> GetMaterialGroupFromDatabase()
+        {
+            string sql = "SELECT CODE_NAME FROM com_code";
+
+            ObservableCollection<MaterialGroup> materialGroupList = new ObservableCollection<MaterialGroup>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(sql, conn);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string materialGroupCode = reader["CODE_ID"].ToString();
+                    string materialGroupName = reader["CODE_NAME"].ToString();
+                    string materialGroupSelection = reader["USE_FLAG"].ToString();
+                    string useFlag = reader["USE_FLAG"].ToString();
+                    DateTime crtDt = Convert.ToDateTime(reader["CRT_DT"]);
+                    DateTime udtDt = Convert.ToDateTime(reader["UDT_DT"]);
+
+
+                    // Model -> MaterialInfo 객체 생성
+                    MaterialGroup materialGroupInfo = new MaterialGroup
+                    {
+                        MaterialGroupCode = materialGroupCode,
+                        MaterialGroupName = materialGroupName,
+                        MaterialGroupSelection = useFlag,
+                        MaterialGroupCreateDate = crtDt,
+                        MaterialGroupUpdateDate = udtDt
+                    };
+
+                    // 생성한 MaterialInfo 객체를 ObservableCollection에 추가
+                    materialGroupList.Add(materialGroupInfo);
+                }
+            }
+            return materialGroupList;
+        }
+
+
+        // 코드명만 가져오도록 수정
+        public List<string> GetCodeNames()
+        {
+            string sql = "SELECT CODE_NAME FROM com_code";
+
+            List<string> codeNames = new List<string>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(sql, conn);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string codeName = reader["CODE_NAME"].ToString(); 
+                    codeNames.Add(codeName);
+                }
+            }
+            return codeNames;
+        }
+
+
+
+
+        /* 자재정보 전체 출력 */
+        /* db에서 자재정보 테이블 가져오기 */
+        public ObservableCollection<MaterialInfoModel> GetMaterialInfoFromDatabase()
+        {
+            string sql = "SELECT * FROM materials_info";
+
+            ObservableCollection<MaterialInfoModel> materialInfoList = new ObservableCollection<MaterialInfoModel>();
+
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(sql, conn);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string materialCode = reader["MATERIAL_CODE"].ToString();
+                    string materialName = reader["MATERIAL_NAME"].ToString();
+                    string materialGroup = reader["MATERIAL_GROUP"].ToString();
+                    string useFlag = reader["USE_FLAG"].ToString();
+                    DateTime crtDt = Convert.ToDateTime(reader["CRT_DT"]);
+                    DateTime udtDt = Convert.ToDateTime(reader["UDT_DT"]);
+
+
+                    // Model -> MaterialInfo 객체 생성
+                    MaterialInfoModel materialInfo = new MaterialInfoModel
+                    {
+                        MaterialCode = materialCode,
+                        MaterialName = materialName,
+                        MaterialGroupName = materialGroup,
+                        MaterialUseSelection = useFlag,
+                        MaterialCreateDate = crtDt,
+                        MaterialUpdateDate = udtDt
+                    };
+
+                    // 생성한 MaterialInfo 객체를 ObservableCollection에 추가
+                    materialInfoList.Add(materialInfo);
+                }
+            }
+            return materialInfoList;
+        }
+
+
+        /* 데이터 조회 함수 */
+        //public ObservableCollection<> GetSearchedData()
         //{
-        //    public List<string> Combo { get; set; }
+        //    string sql = "SELECT * FROM materials_info";
         //}
 
 
-        // db 클래스
-        public class DbConnector
-        {
-            private string DbSource = "DESKTOP-E2KPEDB\\SQLEXPRESS"; // DB address
-            private string DbName = "sampledb"; // DB database name
-            private string DbUser = "sa";    // DB user name
-            private string DbPassword = "q1234"; // DB pw
-
-            private string connectionString;
-
-
-            /* db 연결 메서드 */
-            public void Connect()
-            {
-                connectionString = string.Format("Data Source={0};Initial Catalog={1};User ID={2};Password={3};", DbSource, DbName, DbUser, DbPassword);
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    try
-                    {
-                        connection.Open();
-                        MessageBox.Show("Connection successful.");
-                    }
-                    catch (Exception ex) 
-                    {
-                        MessageBox.Show("Error connecting to database: " + ex.Message);
-                    }
-
-                    connection.Close();
-                }
-            }
-
-            /* db에서 자재그룹 코드명 데이터 가져오기 */
-            public List<string> GetCodeNames()
-            {
-                string connectionString = $"Data Source={DbSource};" + $"Initial Catalog={DbName};" + $"User ID={DbUser};" + $"Password={DbPassword};";
-                string sql = "SELECT CODE_NAME FROM com_code";
-
-                List<string> codeNames = new List<string>();
-
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    SqlCommand command = new SqlCommand(sql, conn);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        string codeName = reader["CODE_NAME"].ToString();
-                        codeNames.Add(codeName);
-                    }
-                }
-                return codeNames;
-            }
-
-
-            /* 자재정보 전체 출력 */
-            /* db에서 자재정보 테이블 가져오기 */
-            public ObservableCollection<MaterialInfoModel> GetMaterialInfoFromDatabase()
-            {
-                string sql = "SELECT * FROM materials_info";
-
-                ObservableCollection<MaterialInfoModel> materialInfoList = new ObservableCollection<MaterialInfoModel>();
-
-
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    SqlCommand command = new SqlCommand(sql, conn);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        string materialCode = reader["MATERIAL_CODE"].ToString();
-                        string materialName = reader["MATERIAL_NAME"].ToString();
-                        string materialGroup = reader["MATERIAL_GROUP"].ToString();
-                        string useFlag = reader["USE_FLAG"].ToString();
-                        DateTime crtDt = Convert.ToDateTime(reader["CRT_DT"]);
-                        DateTime udtDt = Convert.ToDateTime(reader["UDT_DT"]);
-
-
-                        // Model -> MaterialInfo 객체 생성
-                        MaterialInfoModel materialInfo = new MaterialInfoModel
-                        {
-                            MaterialCode = materialCode,
-                            MaterialName = materialName,
-                            MaterialGroupName = materialGroup,
-                            MaterialUseSelection = useFlag,
-                            MaterialCreateDate = crtDt,
-                            MaterialUpdateDate = udtDt
-                        };
-
-                        // 생성한 MaterialInfo 객체를 ObservableCollection에 추가
-                        materialInfoList.Add(materialInfo);
-                    }
-                }
-                return materialInfoList;
-            }
-        }
     }
 }
