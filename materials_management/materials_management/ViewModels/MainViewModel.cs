@@ -64,8 +64,10 @@ namespace materials_management.ViewModels
 
 
 
-        /*  클릭 이벤트 함수  */
 
+
+
+        /*  클릭 이벤트 함수  */
         public ICommand SearchCommand { get; set; }
 
         private Tuple<string, string> _searchParameters;
@@ -105,14 +107,16 @@ namespace materials_management.ViewModels
             }
         }
 
-
         private void SearchBtn_Click()
         {
-            // MaterialCodeSearchTxt와 MaterialNameSearchTxt의 Text 값을 가져와서 사용합니다.
             string searchText1 = SearchText;
             string searchText2 = SearchText2;
 
             MessageBox.Show($"SearchText1: {searchText1}, SearchText2: {searchText2}");
+
+            ObservableCollection<MaterialInfoModel> result = dbConnector.SearchMaterialInfo(searchText1, searchText2);
+
+            MaterialInfoList = result;
         }
 
     }

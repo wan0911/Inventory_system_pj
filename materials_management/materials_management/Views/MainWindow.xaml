@@ -43,7 +43,7 @@
                     <DataGridTextColumn Header="사용여부" Binding="{Binding MaterialUseSelection}" />
                     <DataGridTextColumn Header="등록일" Binding="{Binding MaterialCreateDate}" />
                     <DataGridTextColumn Header="최종수정일"/>
-                    <DataGridComboBoxColumn Header="자재그룹2" ItemsSource="{Binding CodeNameCombo}" />
+                    <!--<DataGridComboBoxColumn Header="자재그룹2" ItemsSource="{Binding CodeNameCombo}" />-->
                 </DataGrid.Columns>
             </DataGrid>
             <Button Content="초기화" Background="#FF828AA9" Canvas.Left="1081" Canvas.Top="444" Width="55" Foreground="White" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" />

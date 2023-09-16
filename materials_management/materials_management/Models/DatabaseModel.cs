@@ -175,10 +175,57 @@ namespace materials_management.Models
 
 
         /* 데이터 조회 함수 */
-        //public ObservableCollection<> GetSearchedData()
-        //{
-        //    string sql = "SELECT * FROM materials_info";
-        //}
+
+        public ObservableCollection<MaterialInfoModel> SearchMaterialInfo(string searchText1, string searchText2)
+        {
+            string sql = "SELECT MATERIAL_CODE, MATERIAL_NAME, MATERIAL_GROUP, USE_FLAG, CRT_DT, UDT_DT FROM materials_info WHERE MATERIAL_CODE = @SearchText1 OR MATERIAL_NAME = @SearchText2";
+
+
+            ObservableCollection<MaterialInfoModel> materialInfoList = new ObservableCollection<MaterialInfoModel>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@SearchText1", searchText1);
+                command.Parameters.AddWithValue("@SearchText2", searchText2);
+                MessageBox.Show($"{command}");
+
+                try
+                {
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string materialCode = reader["MATERIAL_CODE"].ToString();
+                        string materialName = reader["MATERIAL_NAME"].ToString();
+                        string materialGroup = reader["MATERIAL_GROUP"].ToString();
+                        string useFlag = reader["USE_FLAG"].ToString();
+                        DateTime crtDt = Convert.ToDateTime(reader["CRT_DT"]);
+                        DateTime udtDt = Convert.ToDateTime(reader["UDT_DT"]);
+
+                        MaterialInfoModel materialInfo = new MaterialInfoModel
+                        {
+                            MaterialCode = materialCode,
+                            MaterialName = materialName,
+                            MaterialGroupName = materialGroup,
+                            MaterialUseSelection = useFlag,
+                            MaterialCreateDate = crtDt,
+                            MaterialUpdateDate = udtDt
+                        };
+
+                        materialInfoList.Add(materialInfo);
+                        int a = 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 오류 처리 코드 추가
+                    Console.WriteLine("오류 발생: " + ex.Message);
+                }
+            }
+            return materialInfoList;
+        }
 
 
     }
