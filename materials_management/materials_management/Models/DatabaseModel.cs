@@ -14,16 +14,25 @@ using System.Xml.Linq;
 
 
 using static materials_management.Models.MaterialInfoModel;
+using System.Windows.Controls.Primitives;
 
 
 namespace materials_management.Models
 {
     public class DatabaseModel: ObservableObject
     {
-        private string DbSource = "DESKTOP-E2KPEDB\\SQLEXPRESS"; // DB address
-        private string DbName = "sampledb"; // DB database name
+        /* 윈도우 */
+        //private string DbSource = "DESKTOP-E2KPEDB\\SQLEXPRESS"; // DB address
+        //private string DbName = "sampledb"; // DB database name
+        //private string DbUser = "sa";    // DB user name
+        //private string DbPassword = "q1234"; // DB pw
+
+        /* 맥 */
+        private string DbSource = "LCSC16V986\\SQLEXPRESS"; // DB address
+        private string DbName = "materialdb"; // DB database name
         private string DbUser = "sa";    // DB user name
-        private string DbPassword = "q1234"; // DB pw
+        private string DbPassword = "123123"; // DB pw
+
 
         private string connectionString;
 
@@ -176,20 +185,45 @@ namespace materials_management.Models
 
         /* 데이터 조회 함수 */
 
-        public ObservableCollection<MaterialInfoModel> SearchMaterialInfo(string searchText1, string searchText2)
+        public ObservableCollection<MaterialInfoModel> SearchMaterialInfo(string searchMaterialCode, string searchMaterialName, string searchGroupItem, string searchUseItem)
         {
-            string sql = "SELECT MATERIAL_CODE, MATERIAL_NAME, MATERIAL_GROUP, USE_FLAG, CRT_DT, UDT_DT FROM materials_info WHERE MATERIAL_CODE = @SearchText1 OR MATERIAL_NAME = @SearchText2";
+            string sql = "SELECT MI.MATERIAL_CODE, MI.MATERIAL_NAME, CC.CODE_NAME, CCI.USE_FLAG, MI.CRT_DT, MI.UDT_DT"
+                           + "FROM materials_info AS MI"
+                           + "INNER JOIN com_code_item AS CCI"
+                           + "ON MI.MATERIAL_CODE = CCI.CODE_ITEM_ID"
+                           + "INNER JOIN COM_CODE AS CC"
+                           + "ON CC.CODE_ID = CCI.CODE_ID";
 
+            MessageBox.Show($"{searchMaterialCode} {searchMaterialName} {searchGroupItem} {searchUseItem}");
+
+            //if (searchMaterialCode == "" && searchMaterialName == "" && group == "" && useflag == "")
+            //{
+            //}
+            //else
+            //{
+            //    sql += id == "" ? "WHERE MATERIAL.MATERIAL_CODE IS NOT NULL " : $" WHERE MATERIAL.MATERIAL_CODE = '{id}' ";
+            //    sql += name != "" ? $"AND MATERIAL.MATERIAL_NAME = '{name}' " : "";
+            //    if (group == "All" || group == "")
+            //    {
+            //    }
+            //    else if (group != "")
+            //    {
+            //        sql += $"AND CODE.CODE_NAME = '{group}' ";
+            //    }
+            //    sql += useflag != "" ? $"AND CODE_ITEM.USE_FLAG = '{useflag}'" : "";
+
+            //}
 
             ObservableCollection<MaterialInfoModel> materialInfoList = new ObservableCollection<MaterialInfoModel>();
+            
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 SqlCommand command = new SqlCommand(sql, conn);
-                command.Parameters.AddWithValue("@SearchText1", searchText1);
-                command.Parameters.AddWithValue("@SearchText2", searchText2);
-                MessageBox.Show($"{command}");
+                //command.Parameters.AddWithValue("@SearchText1", searchMaterialCode);
+                //command.Parameters.AddWithValue("@SearchText2", searchMaterialName);
+                //command.Parameters.AddWithValue("@SearchText2", searchMaterialName);
 
                 try
                 {
@@ -215,7 +249,7 @@ namespace materials_management.Models
                         };
 
                         materialInfoList.Add(materialInfo);
-                        int a = 0;
+                        //int a = 0;
                     }
                 }
                 catch (Exception ex)

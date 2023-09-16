@@ -18,6 +18,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Globalization;
 using System.Windows.Data;
 using materials_management.ViewModels.Commands;
+using System.Windows.Controls;
 
 namespace materials_management.ViewModels
 {
@@ -33,12 +34,12 @@ namespace materials_management.ViewModels
             dbConnector = DatabaseModel.Getins(); 
             dbConnector.Connect();
 
-            /* dataContext로 넘겨줄 데이터 */
+            /* dataContext 데이터 */
             MaterialInfoList = dbConnector.GetMaterialInfoFromDatabase();
             CodeNameCombo = dbConnector.GetCodeNames();
 
 
-            /* 이벤트 */
+            /* 커멘드 이벤트 */
             SearchCommand = new SearchCommand(SearchBtn_Click);
         }
 
@@ -65,8 +66,6 @@ namespace materials_management.ViewModels
 
 
 
-
-
         /*  클릭 이벤트 함수  */
         public ICommand SearchCommand { get; set; }
 
@@ -77,16 +76,16 @@ namespace materials_management.ViewModels
             set { SetProperty(ref _searchParameters, value); }
         }
 
-        private string _searchText;
+        private string _searchText1;
 
-        public string SearchText
+        public string SearchText1
         {
-            get { return _searchText; }
+            get { return _searchText1; }
             set
             {
-                if (_searchText != value)
+                if (_searchText1 != value)
                 {
-                    _searchText = value;
+                    _searchText1 = value;
                     OnPropertyChanged("SearchText");
                 }
             }
@@ -107,14 +106,48 @@ namespace materials_management.ViewModels
             }
         }
 
+        private string _selectedSearchGroup;
+
+        public string SelectedSearchGroup
+        {
+            get { return _selectedSearchGroup; }
+            set
+            {
+                if (_selectedSearchGroup != value)
+                {
+                    _selectedSearchGroup = value;
+                    OnPropertyChanged("SelectedComboItem");
+                }
+            }
+        }
+
+        private ComboBoxItem _selectedSearchUseItem;
+        public ComboBoxItem SelectedSearchUseItem
+        {
+            get { return _selectedSearchUseItem; }
+            set
+            {
+                if (_selectedSearchUseItem != value)
+                {
+                    _selectedSearchUseItem = value;
+                    OnPropertyChanged("SelectedSearchUseItem");
+                }
+            }
+        }
+
+
+
         private void SearchBtn_Click()
         {
-            string searchText1 = SearchText;
+            string searchText1 = SearchText1;
             string searchText2 = SearchText2;
+            string selectedSearchGroup = SelectedSearchGroup;
+            //string selectedSearchUse = _selectedSearchUse;
+            string selectedUseItem = SelectedSearchUseItem?.Content?.ToString();
 
-            MessageBox.Show($"SearchText1: {searchText1}, SearchText2: {searchText2}");
+            MessageBox.Show($"SearchText1: {searchText1}, SearchText2: {searchText2}, SelectedItem: {selectedSearchGroup} {selectedUseItem}");
 
-            ObservableCollection<MaterialInfoModel> result = dbConnector.SearchMaterialInfo(searchText1, searchText2);
+            ObservableCollection<MaterialInfoModel> result = dbConnector.SearchMaterialInfo(searchText1, searchText2, selectedSearchGroup, selectedUseItem);
 
             MaterialInfoList = result;
         }
