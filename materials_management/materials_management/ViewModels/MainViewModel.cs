@@ -11,19 +11,21 @@ using System.Collections.ObjectModel;
 using materials_management.Models;
 using static materials_management.MainWindow;
 using static materials_management.Models.DatabaseModel;
-using static materials_management.ViewModels.Commands.SearchCommand;
 using System.Windows;
-using materials_management.ViewModels.Commands;
 using System.Windows.Input;
+using System.Security.Cryptography.X509Certificates;
+using CommunityToolkit.Mvvm.Input;
+using System.Globalization;
+using System.Windows.Data;
+using materials_management.ViewModels.Commands;
 
 namespace materials_management.ViewModels
 {
 
     public class MainViewModel : ObservableObject
     {
-
         private DatabaseModel dbConnector;
-        public ICommand DisplaySearchCommand { get; set; }
+        
 
         public MainViewModel()
         {
@@ -37,7 +39,7 @@ namespace materials_management.ViewModels
 
 
             /* 이벤트 */
-            DisplaySearchCommand = new SearchCommand(SearchBtn_Click);
+            SearchCommand = new SearchCommand(SearchBtn_Click);
         }
 
 
@@ -52,9 +54,9 @@ namespace materials_management.ViewModels
         }
 
 
-        private List<string> _codeNameCombo;
+        private ObservableCollection<string> _codeNameCombo;
 
-        public List<string> CodeNameCombo
+        public ObservableCollection<string> CodeNameCombo
         {
             get { return _codeNameCombo; }
             set { SetProperty(ref _codeNameCombo, value); }
@@ -63,9 +65,55 @@ namespace materials_management.ViewModels
 
 
         /*  클릭 이벤트 함수  */
+
+        public ICommand SearchCommand { get; set; }
+
+        private Tuple<string, string> _searchParameters;
+        public Tuple<string, string> SearchParameters
+        {
+            get { return _searchParameters; }
+            set { SetProperty(ref _searchParameters, value); }
+        }
+
+        private string _searchText;
+
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                if (_searchText != value)
+                {
+                    _searchText = value;
+                    OnPropertyChanged("SearchText");
+                }
+            }
+        }
+
+        private string _searchText2;
+
+        public string SearchText2
+        {
+            get { return _searchText2; }
+            set
+            {
+                if (_searchText2 != value)
+                {
+                    _searchText2 = value;
+                    OnPropertyChanged("SearchText2");
+                }
+            }
+        }
+
+
         private void SearchBtn_Click()
         {
-            MessageBox.Show("search 버튼 클릭");
+            // MaterialCodeSearchTxt와 MaterialNameSearchTxt의 Text 값을 가져와서 사용합니다.
+            string searchText1 = SearchText;
+            string searchText2 = SearchText2;
+
+            MessageBox.Show($"SearchText1: {searchText1}, SearchText2: {searchText2}");
         }
+
     }
 }

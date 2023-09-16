@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 
 namespace materials_management.ViewModels.Commands
 {
@@ -12,6 +15,7 @@ namespace materials_management.ViewModels.Commands
         public event EventHandler? CanExecuteChanged;
 
         private Action _execute;
+
         public SearchCommand(Action execute)
         {
             _execute = execute;
@@ -28,3 +32,4 @@ namespace materials_management.ViewModels.Commands
         }
     }
 }
+

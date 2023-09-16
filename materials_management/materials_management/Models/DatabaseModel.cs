@@ -106,11 +106,11 @@ namespace materials_management.Models
 
 
         // 코드명만 가져오도록 수정
-        public List<string> GetCodeNames()
+        public ObservableCollection<string> GetCodeNames()
         {
             string sql = "SELECT CODE_NAME FROM com_code";
 
-            List<string> codeNames = new List<string>();
+            ObservableCollection<string> codeNames = new ObservableCollection<string>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
