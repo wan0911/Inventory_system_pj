@@ -50,11 +50,6 @@
                        SelectionUnit="FullRow" Height="397" Width="1186"  Canvas.Top="42" Canvas.Left="10" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False"
                        HorizontalGridLinesBrush="#FFDADADA" VerticalGridLinesBrush="#FFDADADA" BorderBrush="#FFE6EAEA"
                        SelectedItem="{Binding SelectedMaterialInfo, Mode=TwoWay}">
-                <!--<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DoubleClickCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>-->
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <ei:CallMethodAction TargetObject="{Binding}" MethodName="selectRow" />

@@ -149,43 +149,6 @@ namespace materials_management.ViewModels
 
 
         // 삭제 커맨드
-        /* 더블 클릭으로 구현 */
-        //public ObservableCollection<MaterialInfoModel> SelectedRows = new ObservableCollection<MaterialInfoModel>();
-
-        //private MaterialInfoModel _selectedRow;
-        //public MaterialInfoModel SelectedRow
-        //{
-        //    get { return _selectedRow; }
-        //    set
-        //    {
-        //        if (_selectedRow != value)
-        //        {
-        //            _selectedRow = value;
-        //            OnPropertyChanged("SelectedMaterialInfo");
-
-        //            //DeleteBtn_Click(SelectedRowInfos);
-
-
-        //            SelectedRows.Add(_selectedRow);
-
-        //        }
-        //    }
-        //}
-
-        //private ICommand _doubleClickCommand;
-        //public ICommand DoubleClickCommand => _doubleClickCommand ?? (_doubleClickCommand = new RelayCommand(ExecuteDoubleClickCommand));
-
-        //private void ExecuteDoubleClickCommand()
-        //{
-        //    if (SelectedRow != null)
-        //    {
-        //        SelectedRow.Status = "Delete";
-        //    }
-        //}
-
-
-
-        //public ObservableCollection<MaterialInfoModel> SelectedRows = new ObservableCollection<MaterialInfoModel>();
         private bool IsExecuteDelete = false;
         public void selectRow(object sender, MouseEventArgs e)
         {
@@ -210,9 +173,8 @@ namespace materials_management.ViewModels
 
                     if (clickedDeleteBtn == true)   // 삭제 폼 -> 예를 클릭한 경우
                     {
-                        selectedMaterial.Status = "deleteㅇㄹㅇ";
-                        // 데이터 바인딩 업데이트를 위해 PropertyChanged 이벤트 호출
-                        OnPropertyChanged(nameof(selectedMaterial.Status));
+                        selectedMaterial.Status = "Delete";  // 상태 변경 로직 다시 생각해보기
+                        OnPropertyChanged(nameof(selectedMaterial.Status));  // 데이터 바인딩 업데이트
 
                         DeleteRow(materialCode);
                     }
