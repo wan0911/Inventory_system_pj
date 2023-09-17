@@ -89,6 +89,7 @@ SELECT * FROM com_code_item;
 
 
 
+
 ---- db Äõ¸® ---- 
 INSERT INTO com_code_item (CODE_ID, CODE_ITEM_ID, CODE_ITEM_NAME, USE_FLAG, CRT_DT, UDT_DT)
 VALUES
