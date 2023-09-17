@@ -18,6 +18,7 @@
             <TextBox x:Name="MaterialNameSearchTxt" Text="{Binding SearchText2, Mode=TwoWay}"  Height="22"  FontSize="12" VerticalContentAlignment="Center" Canvas.Left="371" TextWrapping="Wrap" Canvas.Top="18" Width="135" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <TextBlock TextWrapping="Wrap" Text="자재그룹" RenderTransformOrigin="0.321,0.69" Canvas.Left="579" Canvas.Top="23" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox x:Name="MGSearchCombo" ItemsSource="{Binding CodeNameCombo}" SelectedItem="{Binding SelectedSearchGroup, Mode=TwoWay}" Width="120" Canvas.Left="649" Canvas.Top="18" />
+
             <TextBlock TextWrapping="Wrap" Text="사용여부" RenderTransformOrigin="0.321,0.69" Canvas.Left="856" Canvas.Top="23" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox x:Name="MaterialUseCombo" SelectedItem="{Binding SelectedSearchUseItem, Mode=TwoWay}" Width="120" Canvas.Left="926" Canvas.Top="18" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <ComboBoxItem Content="Y" />

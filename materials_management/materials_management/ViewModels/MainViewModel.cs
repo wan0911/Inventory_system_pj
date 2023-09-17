@@ -142,14 +142,36 @@ namespace materials_management.ViewModels
             string searchText1 = SearchText1;
             string searchText2 = SearchText2;
             string selectedSearchGroup = SelectedSearchGroup;
-            //string selectedSearchUse = _selectedSearchUse;
             string selectedUseItem = SelectedSearchUseItem?.Content?.ToString();
+
+            //string searchText1 = string.IsNullOrEmpty(SearchText1) ? "" : SearchText1;
+            //string searchText2 = string.IsNullOrEmpty(SearchText2) ? "" : SearchText2;
+            //string selectedSearchGroup = string.IsNullOrEmpty(SelectedSearchGroup) ? "" : SelectedSearchGroup;
+            //string selectedUseItem = SelectedSearchUseItem == null ? "" : SelectedSearchUseItem.Content?.ToString() ?? "";
+
 
             MessageBox.Show($"SearchText1: {searchText1}, SearchText2: {searchText2}, SelectedItem: {selectedSearchGroup} {selectedUseItem}");
 
             ObservableCollection<MaterialInfoModel> result = dbConnector.SearchMaterialInfo(searchText1, searchText2, selectedSearchGroup, selectedUseItem);
 
             MaterialInfoList = result;
+        }
+
+
+
+        private bool isAll;
+
+        public bool IsAll
+        {
+            get { return isAll; }
+            set
+            {
+                if (isAll != value)
+                {
+                    isAll = value;
+                    OnPropertyChanged(nameof(IsAll));
+                }
+            }
         }
 
     }

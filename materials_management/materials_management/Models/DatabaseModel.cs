@@ -106,7 +106,6 @@ namespace materials_management.Models
                         MaterialGroupUpdateDate = udtDt
                     };
 
-                    // 생성한 MaterialInfo 객체를 ObservableCollection에 추가
                     materialGroupList.Add(materialGroupInfo);
                 }
             }
@@ -184,46 +183,53 @@ namespace materials_management.Models
 
 
         /* 데이터 조회 함수 */
-
         public ObservableCollection<MaterialInfoModel> SearchMaterialInfo(string searchMaterialCode, string searchMaterialName, string searchGroupItem, string searchUseItem)
         {
-            string sql = "SELECT MI.MATERIAL_CODE, MI.MATERIAL_NAME, CC.CODE_NAME, CCI.USE_FLAG, MI.CRT_DT, MI.UDT_DT"
-                           + "FROM materials_info AS MI"
-                           + "INNER JOIN com_code_item AS CCI"
-                           + "ON MI.MATERIAL_CODE = CCI.CODE_ITEM_ID"
-                           + "INNER JOIN COM_CODE AS CC"
-                           + "ON CC.CODE_ID = CCI.CODE_ID";
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append("SELECT MI.MATERIAL_CODE, MI.MATERIAL_NAME, CC.CODE_NAME, CCI.USE_FLAG, MI.CRT_DT, MI.UDT_DT ");
+            sqlBuilder.Append("FROM materials_info AS MI ");
+            sqlBuilder.Append("INNER JOIN com_code_item AS CCI ON MI.MATERIAL_CODE = CCI.CODE_ITEM_ID ");
+            sqlBuilder.Append("INNER JOIN COM_CODE AS CC ON CC.CODE_ID = CCI.CODE_ID ");
 
-            MessageBox.Show($"{searchMaterialCode} {searchMaterialName} {searchGroupItem} {searchUseItem}");
+            // 검색 조건을 추가합니다.
+            bool hasWhereClause = false; // WHERE 절 추가 여부를 추적합니다.
 
-            //if (searchMaterialCode == "" && searchMaterialName == "" && group == "" && useflag == "")
-            //{
-            //}
-            //else
-            //{
-            //    sql += id == "" ? "WHERE MATERIAL.MATERIAL_CODE IS NOT NULL " : $" WHERE MATERIAL.MATERIAL_CODE = '{id}' ";
-            //    sql += name != "" ? $"AND MATERIAL.MATERIAL_NAME = '{name}' " : "";
-            //    if (group == "All" || group == "")
-            //    {
-            //    }
-            //    else if (group != "")
-            //    {
-            //        sql += $"AND CODE.CODE_NAME = '{group}' ";
-            //    }
-            //    sql += useflag != "" ? $"AND CODE_ITEM.USE_FLAG = '{useflag}'" : "";
+            if (!string.IsNullOrEmpty(searchMaterialCode))
+            {
+                sqlBuilder.Append(hasWhereClause ? " OR " : " WHERE ");
+                sqlBuilder.Append($"MI.MATERIAL_CODE = '{searchMaterialCode}' ");
+                hasWhereClause = true;
+            }
 
-            //}
+            if (!string.IsNullOrEmpty(searchMaterialName))
+            {
+                sqlBuilder.Append(hasWhereClause ? " OR " : " WHERE ");
+                sqlBuilder.Append($"MI.MATERIAL_NAME = '{searchMaterialName}' ");
+                hasWhereClause = true;
+            }
+
+            if (!string.IsNullOrEmpty(searchGroupItem))
+            {
+                sqlBuilder.Append(hasWhereClause ? " OR " : " WHERE ");
+                sqlBuilder.Append($"CC.CODE_NAME = '{searchGroupItem}' ");
+                hasWhereClause = true;
+            }
+
+            if (!string.IsNullOrEmpty(searchUseItem))
+            {
+                sqlBuilder.Append(hasWhereClause ? " OR " : " WHERE ");
+                sqlBuilder.Append($"CCI.USE_FLAG = '{searchUseItem}' ");
+                hasWhereClause = true;
+            }
+
+            string sql = sqlBuilder.ToString();
 
             ObservableCollection<MaterialInfoModel> materialInfoList = new ObservableCollection<MaterialInfoModel>();
-            
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 SqlCommand command = new SqlCommand(sql, conn);
-                //command.Parameters.AddWithValue("@SearchText1", searchMaterialCode);
-                //command.Parameters.AddWithValue("@SearchText2", searchMaterialName);
-                //command.Parameters.AddWithValue("@SearchText2", searchMaterialName);
 
                 try
                 {
@@ -233,7 +239,7 @@ namespace materials_management.Models
                     {
                         string materialCode = reader["MATERIAL_CODE"].ToString();
                         string materialName = reader["MATERIAL_NAME"].ToString();
-                        string materialGroup = reader["MATERIAL_GROUP"].ToString();
+                        string materialGroup = reader["CODE_NAME"].ToString(); 
                         string useFlag = reader["USE_FLAG"].ToString();
                         DateTime crtDt = Convert.ToDateTime(reader["CRT_DT"]);
                         DateTime udtDt = Convert.ToDateTime(reader["UDT_DT"]);
@@ -249,17 +255,17 @@ namespace materials_management.Models
                         };
 
                         materialInfoList.Add(materialInfo);
-                        //int a = 0;
                     }
                 }
                 catch (Exception ex)
                 {
-                    // 오류 처리 코드 추가
                     Console.WriteLine("오류 발생: " + ex.Message);
                 }
             }
+
             return materialInfoList;
         }
+
 
 
     }
