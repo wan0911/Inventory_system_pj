@@ -75,15 +75,27 @@
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="No" Binding="{Binding RowNumber}"/>
-                    <DataGridTextColumn Header="상태" Binding="{Binding Status}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="No" Binding="{Binding RowNumber}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="상태" Binding="{Binding Status}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="자재코드" Binding="{Binding MaterialCode}" />
                     <DataGridTextColumn Header="자재명" Binding="{Binding MaterialName}" />
                     <DataGridTextColumn Header="자재그룹" Binding="{Binding MaterialGroupName}" />
                     <DataGridTextColumn Header="사용여부" Binding="{Binding MaterialUseSelection}" />
-                    <DataGridTextColumn Header="등록일" Binding="{Binding MaterialCreateDate}" />
-                    <DataGridTextColumn Header="최종수정일"/>
-                    <!--<DataGridComboBoxColumn Header="자재그룹2" ItemsSource="{Binding CodeNameCombo}" />-->
+                    <DataGridTextColumn Header="등록일" Binding="{Binding MaterialCreateDate}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="최종수정일" IsReadOnly="True"/>
+                    <DataGridComboBoxColumn Header="자재그룹2" SelectedValueBinding="{Binding CodeNameCombo}">
+                        <DataGridComboBoxColumn.ElementStyle>
+                            <Style TargetType="{x:Type ComboBox}">
+                                <Setter Property="ItemsSource" Value="{Binding Path=DataContext.CodeNameCombo, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                            </Style>
+                        </DataGridComboBoxColumn.ElementStyle>
+                        <DataGridComboBoxColumn.EditingElementStyle>
+                            <Style TargetType="{x:Type ComboBox}">
+                                <Setter Property="ItemsSource" Value="{Binding Path=DataContext.CodeNameCombo, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                            </Style>
+                        </DataGridComboBoxColumn.EditingElementStyle>
+                    </DataGridComboBoxColumn>
+
                 </DataGrid.Columns>
             </DataGrid>
             <Button Content="초기화" Background="#FF797979" Canvas.Left="1081" Canvas.Top="444" Width="55" Foreground="White" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" />

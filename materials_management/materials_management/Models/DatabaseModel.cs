@@ -191,8 +191,7 @@ namespace materials_management.Models
             sqlBuilder.Append("INNER JOIN com_code_item AS CCI ON MI.MATERIAL_CODE = CCI.CODE_ITEM_ID ");
             sqlBuilder.Append("INNER JOIN COM_CODE AS CC ON CC.CODE_ID = CCI.CODE_ID ");
 
-            // 검색 조건을 추가합니다.
-            bool hasWhereClause = false; // WHERE 절 추가 여부를 추적합니다.
+            bool hasWhereClause = false; // WHERE 절 추가 여부를 추적
 
             if (!string.IsNullOrEmpty(searchMaterialCode))
             {
@@ -284,28 +283,5 @@ namespace materials_management.Models
             }
         }
 
-        //public void DeleteMaterialInfo(string selectedMaterialCode)
-        //{
-        //    string sql = $"DELETE FROM materials_info WHERE MATERIAL_CODE = '{selectedMaterialCode}'";
-
-        //    using (SqlConnection conn = new SqlConnection(connectionString))
-        //    {
-        //        conn.Open();
-
-        //        using (SqlCommand command = new SqlCommand(sql, conn))
-        //        {
-        //            int affectedRows = command.ExecuteNonQuery();
-
-        //            if (affectedRows > 0)
-        //            {
-        //                Console.WriteLine("성공적으로 삭제되었습니다.");
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine("삭제에 실패했습니다.");
-        //            }
-        //        }
-        //    }
-        //}
     }
 }

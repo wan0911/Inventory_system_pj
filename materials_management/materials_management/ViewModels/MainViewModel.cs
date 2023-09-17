@@ -152,6 +152,9 @@ namespace materials_management.ViewModels
         private bool IsExecuteDelete = false;
         public void selectRow(object sender, MouseEventArgs e)
         {
+            // 삭제 버튼을 눌렀을 때만 행 데이터 가져오게 로직 수정 필요
+            // 순서를 바꾸는게 좋을 듯
+
             DependencyObject dep = (DependencyObject)e.OriginalSource;
 
             // 이벤트 소스로부터 부모 DataGridRow을 찾을 때까지 반복
@@ -165,9 +168,11 @@ namespace materials_management.ViewModels
                 if (dataGridRow.Item is MaterialInfoModel selectedMaterial)
                 {
                     var materialCode = selectedMaterial.MaterialCode;
-                    var materialName = selectedMaterial.MaterialName;
+                    var materialUse = selectedMaterial.MaterialUseSelection;
 
-                    MessageBox.Show($"선택한 행의 MaterialCode: {materialCode}, MaterialName: {materialName}");
+                    //MessageBox.Show($"선택한 행의 MaterialCode: {materialCode}, MaterialUseSelection: {materialUse}");
+
+                    // 여기서 db에서 자재그룹 사용여부 데이터 가져와서 사용중, 갯수에 따라 밑의 코드 실행 시키기
 
                     IsExecuteDelete = true;     // 행을 선택하고 삭제버튼을 클릭했을 때만, 삭제 폼 뜨기 위해 지정
 
