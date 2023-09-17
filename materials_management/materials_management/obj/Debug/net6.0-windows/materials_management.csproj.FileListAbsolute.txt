@@ -80,3 +80,10 @@ C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management
 C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.csproj.CopyComplete
 C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\materials_management.genruntimeconfig.cache
 C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\ref\materials_management.dll
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\Views\SubWindow.g.cs
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\Views\SubWindow.baml
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\Microsoft.Expression.Interactions.dll
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\System.Windows.Interactivity.dll
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\Views\DeleteWindow.g.cs
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\Views\DeleteWindow.baml

@@ -1,14 +1,11 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace materials_management.Models
 {
-    public class MaterialInfoModel : INotifyPropertyChanged
+    public class MaterialInfoModel : ObservableObject
     {
 
         private string _materialCode;            // 자재코드
@@ -39,22 +36,46 @@ namespace materials_management.Models
             get { return _materiaUseSelection; }
         }
 
-        private DateTime _materiaCreateDate;           // 생성일
-        public DateTime MaterialCreateDate
+        private string _materiaCreateDate;           // 생성일
+        public string MaterialCreateDate
         {
             set { _materiaCreateDate = value; }
             get { return _materiaCreateDate; }
         }
 
-        private DateTime _materiaUpdateDate;           // 수정일
-        public DateTime MaterialUpdateDate
+        private string _materiaUpdateDate;           // 수정일
+        public string MaterialUpdateDate
         {
             set { _materiaUpdateDate = value; }
             get { return _materiaUpdateDate; }
         }
 
 
+        private int _rowNumber;
+        public int RowNumber
+        {
+            get { return _rowNumber; }
+            set
+            {
+                _rowNumber = value;
+                OnPropertyChanged("RowNumber");
+            }
+        }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private string _status;
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    OnPropertyChanged(nameof(Status));
+                }
+            }
+        }
+
+        //public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

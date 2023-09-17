@@ -96,7 +96,6 @@ namespace materials_management.Models
                     DateTime udtDt = Convert.ToDateTime(reader["UDT_DT"]);
 
 
-                    // Model -> MaterialInfo 객체 생성
                     MaterialGroup materialGroupInfo = new MaterialGroup
                     {
                         MaterialGroupCode = materialGroupCode,
@@ -116,9 +115,10 @@ namespace materials_management.Models
         // 코드명만 가져오도록 수정
         public ObservableCollection<string> GetCodeNames()
         {
-            string sql = "SELECT CODE_NAME FROM com_code";
+            string sql = "SELECT DISTINCT CODE_NAME FROM com_code";
 
             ObservableCollection<string> codeNames = new ObservableCollection<string>();
+            codeNames.Add("ALL");
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -159,8 +159,8 @@ namespace materials_management.Models
                     string materialName = reader["MATERIAL_NAME"].ToString();
                     string materialGroup = reader["MATERIAL_GROUP"].ToString();
                     string useFlag = reader["USE_FLAG"].ToString();
-                    DateTime crtDt = Convert.ToDateTime(reader["CRT_DT"]);
-                    DateTime udtDt = Convert.ToDateTime(reader["UDT_DT"]);
+                    string crtDt = Convert.ToDateTime(reader["CRT_DT"]).ToString("yyyy-mm-dd");
+                    string udtDt = Convert.ToDateTime(reader["UDT_DT"]).ToString("yyyy-mm-dd");
 
 
                     // Model -> MaterialInfo 객체 생성
@@ -197,14 +197,14 @@ namespace materials_management.Models
             if (!string.IsNullOrEmpty(searchMaterialCode))
             {
                 sqlBuilder.Append(hasWhereClause ? " OR " : " WHERE ");
-                sqlBuilder.Append($"MI.MATERIAL_CODE = '{searchMaterialCode}' ");
+                sqlBuilder.Append($"MI.MATERIAL_CODE LIKE '%{searchMaterialCode}%' ");
                 hasWhereClause = true;
             }
 
             if (!string.IsNullOrEmpty(searchMaterialName))
             {
                 sqlBuilder.Append(hasWhereClause ? " OR " : " WHERE ");
-                sqlBuilder.Append($"MI.MATERIAL_NAME = '{searchMaterialName}' ");
+                sqlBuilder.Append($"MI.MATERIAL_NAME LIKE '%{searchMaterialName}%' ");
                 hasWhereClause = true;
             }
 
@@ -241,8 +241,9 @@ namespace materials_management.Models
                         string materialName = reader["MATERIAL_NAME"].ToString();
                         string materialGroup = reader["CODE_NAME"].ToString(); 
                         string useFlag = reader["USE_FLAG"].ToString();
-                        DateTime crtDt = Convert.ToDateTime(reader["CRT_DT"]);
-                        DateTime udtDt = Convert.ToDateTime(reader["UDT_DT"]);
+                        string crtDt = Convert.ToDateTime(reader["CRT_DT"]).ToString("yyyy-mm-dd");
+                        string udtDt = Convert.ToDateTime(reader["UDT_DT"]).ToString("yyyy-mm-dd");
+
 
                         MaterialInfoModel materialInfo = new MaterialInfoModel
                         {
@@ -267,6 +268,44 @@ namespace materials_management.Models
         }
 
 
+        /* 삭제 함수 */
+        public void DeleteMaterialInfo(string selectedMaterialCode)
+        {
+            string sql = $"DELETE FROM materials_info WHERE MATERIAL_CODE = '{selectedMaterialCode}'";
 
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand(sql, conn))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        //public void DeleteMaterialInfo(string selectedMaterialCode)
+        //{
+        //    string sql = $"DELETE FROM materials_info WHERE MATERIAL_CODE = '{selectedMaterialCode}'";
+
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        conn.Open();
+
+        //        using (SqlCommand command = new SqlCommand(sql, conn))
+        //        {
+        //            int affectedRows = command.ExecuteNonQuery();
+
+        //            if (affectedRows > 0)
+        //            {
+        //                Console.WriteLine("성공적으로 삭제되었습니다.");
+        //            }
+        //            else
+        //            {
+        //                Console.WriteLine("삭제에 실패했습니다.");
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

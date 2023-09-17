@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\App.xaml
-2-1809623713
+41152036959
 
-111848303241
-1961555202847
-MaterialGroupRegisterWindow.xaml;Views\MainWindow.xaml;
+14-912080690
+199-467762168
+MaterialGroupRegisterWindow.xaml;Views\DeleteWindow.xaml;Views\MainWindow.xaml;Views\SubWindow.xaml;
 
-True
+False
 
