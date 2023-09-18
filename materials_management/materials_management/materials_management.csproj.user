@@ -7,9 +7,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="MaterialGroupRegisterWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\DeleteWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -22,9 +19,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="MaterialGroupRegisterWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\SubWindow.xaml">

@@ -162,8 +162,6 @@ namespace materials_management.Models
                     string crtDt = Convert.ToDateTime(reader["CRT_DT"]).ToString("yyyy-mm-dd");
                     string udtDt = Convert.ToDateTime(reader["UDT_DT"]).ToString("yyyy-mm-dd");
 
-
-                    // Model -> MaterialInfo 객체 생성
                     MaterialInfoModel materialInfo = new MaterialInfoModel
                     {
                         MaterialCode = materialCode,
@@ -174,7 +172,6 @@ namespace materials_management.Models
                         MaterialUpdateDate = udtDt
                     };
 
-                    // 생성한 MaterialInfo 객체를 ObservableCollection에 추가
                     materialInfoList.Add(materialInfo);
                 }
             }

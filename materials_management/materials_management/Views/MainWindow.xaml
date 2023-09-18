@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        xmlns:local="clr-namespace:materials_management.ViewModels" xmlns:b="clr-namespace:Microsoft.VisualBasic;assembly=Microsoft.VisualBasic.Core"
+        xmlns:local="clr-namespace:materials_management.ViewModels" 
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1300">
-    
 
     <Grid Margin="0,0,0,-6">
 
@@ -37,25 +37,42 @@
 
         <Canvas Margin="51,162,31,22">
             <Button x:Name="MaterialGroupBtn" Content="자재그룹 관리" Background="#FF797979" Canvas.Left="979" Canvas.Top="10" Width="96" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" />
-            <Button Content="추가" Background="#FF797979" Canvas.Left="1080" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" />
-            <Button Content="삭제"  Background="#FF797979" Canvas.Left="1140" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}">
+            <Button Content="추가" Background="#FF797979" Canvas.Left="1080" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding}" MethodName="AddNewRow" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <!--<Button Content="삭제"  Background="#FF797979" Canvas.Left="1140" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <ei:CallMethodAction TargetObject="{Binding}" MethodName="ExecuteDeleteRow" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-            </Button>
+            </Button>-->
+            <Button Content="삭제" Command="{Binding DeleteCommand}" Background="#FF797979" Canvas.Left="1140" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}"/>
             <TextBlock TextWrapping="Wrap" Text="총 건" RenderTransformOrigin="0.321,0.69" Canvas.Left="10" Canvas.Top="21" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <!-- 데이터 뷰 -->
             <DataGrid  x:Name="materialDataGrid" ItemsSource="{Binding MaterialInfoList}"  CanUserReorderColumns="False" CanUserSortColumns="True" SelectionMode="Single" 
                        SelectionUnit="FullRow" Height="397" Width="1186"  Canvas.Top="42" Canvas.Left="10" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False"
                        HorizontalGridLinesBrush="#FFDADADA" VerticalGridLinesBrush="#FFDADADA" BorderBrush="#FFE6EAEA"
-                       SelectedItem="{Binding SelectedMaterialInfo, Mode=TwoWay}">
-                <i:Interaction.Triggers>
+                       >
+            <!-- selectedItem을 사용하는 방법 -->
+                <!--SelectedItem="{Binding SelectedMaterialInfo, Mode=TwoWay}"-->
+                <!--<i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <ei:CallMethodAction TargetObject="{Binding}" MethodName="selectRow" />
                     </i:EventTrigger>
-                </i:Interaction.Triggers>
+                </i:Interaction.Triggers>-->
+
+            <!-- Command 사용하는 방법 -->
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="SelectionChanged">
+                        <b:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
+                                           PassEventArgsToCommand="True" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="Height" Value="27"/>

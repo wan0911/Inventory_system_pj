@@ -53,7 +53,7 @@ namespace materials_management {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/materials_management;component/materialgroupregisterwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/materials_management;V1.0.0.0;component/materialgroupregisterwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\MaterialGroupRegisterWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

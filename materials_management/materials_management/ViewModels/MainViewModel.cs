@@ -8,20 +8,14 @@ using System.Windows;
 using System.Windows.Input;
 using materials_management.ViewModels.Commands;
 using System.Windows.Controls;
-using System.Collections.Generic;
-using System.Numerics;
-using CommunityToolkit.Mvvm.Input;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Collections;
 using System.Windows.Media;
 using materials_management.Views;
-using System.Drawing;
-using System.Runtime.Intrinsics.X86;
-using System.Globalization;
+
 using System.Text.RegularExpressions;
 using static materials_management.ViewModels.MainViewModel;
 using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.Input;
+using System.Diagnostics.Metrics;
 
 namespace materials_management.ViewModels
 {
@@ -43,15 +37,17 @@ namespace materials_management.ViewModels
             SearchCommand = new SearchCommand(SearchBtn_Click);
             CalculateRowNumbers();
 
+            SelectionChangedCommand = new RelayCommand<object>(OnSelectionChanged);
+            DeleteCommand = new DeleteCommand(ExecuteDeleteCommand);
         }
 
-     
 
 
-        /* ---- dataContext 정의 ---- */
+
+
+
+        /* ------- dataContext 정의 ------- */
         // 1. datagridcolumnbox 설정
-
-
 
 
         private ObservableCollection<MaterialInfoModel> _materialInfoList;
@@ -75,7 +71,7 @@ namespace materials_management.ViewModels
 
 
 
-        /* ---- Command 함수 ---- */
+        /* ------- Command 함수 ------- */
         // 조회 커멘드
         public ICommand SearchCommand { get; set; }
 
@@ -173,107 +169,108 @@ namespace materials_management.ViewModels
             {
                 MessageBox.Show("자재명은 영문, 숫자, _ 조합과 공백 제외 최대 10자 이내로 입력하세요.");
                 return;
-            }
+            } // 오버라이딩? 조건 수정...
 
-            
-
-            MessageBox.Show($"SearchText1: {searchText1}, SearchText2: {searchText2}, SelectedItem: {selectedSearchGroup} {selectedUseItem}");
 
             ObservableCollection<MaterialInfoModel> result = dbConnector.SearchMaterialInfo(searchText1, searchText2, selectedSearchGroup, selectedUseItem);
             MaterialInfoList = result;
         }
 
 
-        // 삭제 커맨드
-        private bool IsExecuteDelete = false;
-        public void selectRow(object sender, MouseEventArgs e)
+
+        /* datagrid 행 선택 커멘드 --> + 삭제 커맨드, 수정 커맨드, 추가 커맨드 */
+        private MaterialInfoModel _selectedMaterial;
+        public MaterialInfoModel SelectedMaterial
         {
-            // 삭제 버튼을 눌렀을 때만 행 데이터 가져오게 로직 수정 필요
-            // 순서를 바꾸는게 좋을 듯
-
-            DependencyObject dep = (DependencyObject)e.OriginalSource;
-
-            // 이벤트 소스로부터 부모 DataGridRow을 찾을 때까지 반복
-            while ((dep != null) && !(dep is DataGridRow))
+            get { return _selectedMaterial; }
+            set
             {
-                dep = VisualTreeHelper.GetParent(dep);
-            }
-
-            if (dep is DataGridRow dataGridRow)
-            {
-                if (dataGridRow.Item is MaterialInfoModel selectedMaterial)
+                if (_selectedMaterial != value)
                 {
-                    var materialCode = selectedMaterial.MaterialCode;
-                    var materialUse = selectedMaterial.MaterialUseSelection;
-
-                    //MessageBox.Show($"선택한 행의 MaterialCode: {materialCode}, MaterialUseSelection: {materialUse}");
-
-                    // 여기서 db에서 자재그룹 사용여부 데이터 가져와서 사용중, 갯수에 따라 밑의 코드 실행 시키기
-
-                    IsExecuteDelete = true;     // 행을 선택하고 삭제버튼을 클릭했을 때만, 삭제 폼 뜨기 위해 지정
-
-                    if (clickedDeleteBtn == true)   // 삭제 폼 -> 예를 클릭한 경우
-                    {
-                        selectedMaterial.Status = "Delete";  // 상태 변경 로직 다시 생각해보기
-                        OnPropertyChanged(nameof(selectedMaterial.Status));  // 데이터 바인딩 업데이트
-
-                        DeleteRow(materialCode);
-                    }
+                    _selectedMaterial = value;
+                    OnPropertyChanged(nameof(SelectedMaterial));
                 }
             }
         }
-      
-        public bool clickedDeleteBtn = false;
-        public void ExecuteDeleteRow()
+
+        public RelayCommand<object> SelectionChangedCommand { get; set; }  // 버튼이 아닌 command binding
+        private void OnSelectionChanged(object para)
+        {
+            var args = para as SelectionChangedEventArgs;
+            if (args == null)
+            {
+                return;
+            }
+
+            if (args.AddedItems.Count == 0)
+            {
+                MessageBox.Show("row 데이터를 가져오지 못했습니다.");
+            }
+            else
+            {
+                var selectedMaterial = args.AddedItems[0] as MaterialInfoModel;
+                if (selectedMaterial != null)
+                {
+                    SelectedMaterial = selectedMaterial;
+                    MessageBox.Show($"{selectedMaterial.MaterialName}");
+                    return;
+                }
+            }
+        }
+
+
+        // 삭제 커맨드
+        // 1. 삭제 버튼 클릭 command
+        public ICommand DeleteCommand { get; private set; }
+        private void ExecuteDeleteCommand()
         {
             var confirmationWindow = new DeleteWindow();
             confirmationWindow.Owner = Application.Current.MainWindow;
 
-            if (!IsExecuteDelete)
+            if (SelectedMaterial != null)
             {
-                MessageBox.Show("그리드뷰에서 삭제할 행을 선택해주세요.");
-                return;
-            }
-            else
-            {
-                confirmationWindow.ShowDialog();
+                string materialCode = SelectedMaterial.MaterialCode;
+
+                confirmationWindow.ShowDialog();  // 삭제폼 실행
 
                 if (confirmationWindow.IsConfirmed) // Yes
                 {
-                    MessageBox.Show("삭제가 완료되었습니다.");
-                    clickedDeleteBtn = true;
+                    SelectedMaterial.Status = "Delete";  
+                    OnPropertyChanged(nameof(SelectedMaterial.Status));  // 데이터 바인딩 업데이트
+
+                    MessageBox.Show("상태:Delete로 업데이트 되었습니다.");
                 }
                 else
                 {
                     MessageBox.Show("삭제가 취소되었습니다.");
                 }
             }
+            else
+            {
+                MessageBox.Show("행에 대한 데이터가 없습니다.");
+                return;
+            }
         }
 
+      
+
+        //// 삭제 후 자재 목록을 업데이트 -> 저장 버튼 클릭 시로 변경
+        //var deletedMaterial = MaterialInfoList.FirstOrDefault(m => m.MaterialCode == materialCode);
+        //deletedMaterial.Status = "Delete";
+        //if (deletedMaterial != null)
+        //{
+        //    MaterialInfoList.Remove(deletedMaterial);
+        //}
 
 
-        public void DeleteRow(string materialCode)
+
+
+        // 새로운 행 추가 기능 
+        public void AddNewRow()
         {
-            try
-            {
-                MessageBox.Show("deletrow 실행");
-                //dbConnector.DeleteMaterialInfo(materialCode);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"{e}");
-            }
 
-            //// 삭제 후에 자재 목록을 업데이트하려면 아래와 같이 처리할 수 있습니다.
-            //var deletedMaterial = MaterialInfoList.FirstOrDefault(m => m.MaterialCode == materialCode);
-            //deletedMaterial.Status = "Delete";
-            //if (deletedMaterial != null)
-            //{
-            //    MaterialInfoList.Remove(deletedMaterial);
-            //}
         }
 
-        
     }
 }
 

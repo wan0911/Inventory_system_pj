@@ -16,7 +16,8 @@ namespace materials_management
             InitializeComponent();
 
             MainViewModel viewModel = new MainViewModel();
-            DataContext = viewModel;
+            //DataContext = viewModel;
+            DataContext = App.Current.Services.GetService((typeof(MainViewModel)));
         }
     }
 }

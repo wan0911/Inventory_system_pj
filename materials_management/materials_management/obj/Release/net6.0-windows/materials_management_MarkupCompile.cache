@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\User\Desktop\인턴 자료\2차 과제\materials_management\materials_management\obj\Release\net6.0-windows\
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Release\net6.0-windows\
 materials_management
 none
 false
 TRACE;RELEASE;NET;NET6_0;NETCOREAPP
-C:\Users\User\Desktop\인턴 자료\2차 과제\materials_management\materials_management\App.xaml
-11407045341
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\App.xaml
+41152036959
 
-3-1233169557
-194183970531
-MainWindow.xaml;
+111390904039
+199-467762168
+MaterialGroupRegisterWindow.xaml;Views\DeleteWindow.xaml;Views\MainWindow.xaml;Views\SubWindow.xaml;
 
 True
 
