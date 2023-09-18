@@ -1,19 +1,29 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 
 namespace materials_management.Models
 {
     public class MaterialInfoModel : ObservableObject
     {
-
         private string _materialCode;            // 자재코드
         public string MaterialCode
         {
             get { return _materialCode; }
             set { _materialCode = value; }
         }
+
+        //[Required(ErrorMessage = "자재코드는 필수 입력 항목입니다.")]
+        //[MaxLength(10, ErrorMessage = "자재코드는 최대 10자 이내로 입력하세요.")]
+        //public string MaterialCode
+        //{
+        //    get { return _materialCode; }
+        //    set { SetProperty(ref _materialCode, value); }
+        //}
+
 
         private string _materialName;           // 자재명
         public string MaterialName
@@ -61,6 +71,7 @@ namespace materials_management.Models
                 OnPropertyChanged("RowNumber");
             }
         }
+
 
         private string _status;
         public string Status

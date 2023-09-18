@@ -8,6 +8,7 @@
         xmlns:local="clr-namespace:materials_management.ViewModels" xmlns:b="clr-namespace:Microsoft.VisualBasic;assembly=Microsoft.VisualBasic.Core"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1300">
+    
 
     <Grid Margin="0,0,0,-6">
 
@@ -79,11 +80,7 @@
                     <DataGridTextColumn Header="상태" Binding="{Binding Status}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="자재코드" Binding="{Binding MaterialCode}" />
                     <DataGridTextColumn Header="자재명" Binding="{Binding MaterialName}" />
-                    <DataGridTextColumn Header="자재그룹" Binding="{Binding MaterialGroupName}" />
-                    <DataGridTextColumn Header="사용여부" Binding="{Binding MaterialUseSelection}" />
-                    <DataGridTextColumn Header="등록일" Binding="{Binding MaterialCreateDate}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="최종수정일" IsReadOnly="True"/>
-                    <DataGridComboBoxColumn Header="자재그룹2" SelectedValueBinding="{Binding CodeNameCombo}">
+                    <DataGridComboBoxColumn Header="자재그룹" SelectedValueBinding="{Binding CodeNameCombo}">
                         <DataGridComboBoxColumn.ElementStyle>
                             <Style TargetType="{x:Type ComboBox}">
                                 <Setter Property="ItemsSource" Value="{Binding Path=DataContext.CodeNameCombo, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
@@ -92,6 +89,22 @@
                         <DataGridComboBoxColumn.EditingElementStyle>
                             <Style TargetType="{x:Type ComboBox}">
                                 <Setter Property="ItemsSource" Value="{Binding Path=DataContext.CodeNameCombo, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                            </Style>
+                        </DataGridComboBoxColumn.EditingElementStyle>
+                    </DataGridComboBoxColumn>
+                    <DataGridTextColumn Header="사용여부" Binding="{Binding MaterialUseSelection}" />
+                    <DataGridTextColumn Header="등록일" Binding="{Binding MaterialCreateDate}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="최종수정일" IsReadOnly="True"/>
+                    <DataGridComboBoxColumn Header="ID" SelectedItemBinding="{Binding ID}">
+                        <DataGridComboBoxColumn.ElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" Value="{Binding Pet}"/>
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </Style>
+                        </DataGridComboBoxColumn.ElementStyle>
+                        <DataGridComboBoxColumn.EditingElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" Value="{Binding Pet}"/>
                             </Style>
                         </DataGridComboBoxColumn.EditingElementStyle>
                     </DataGridComboBoxColumn>

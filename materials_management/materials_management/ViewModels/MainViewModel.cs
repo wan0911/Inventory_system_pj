@@ -16,6 +16,12 @@ using System.Linq;
 using System.Collections;
 using System.Windows.Media;
 using materials_management.Views;
+using System.Drawing;
+using System.Runtime.Intrinsics.X86;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using static materials_management.ViewModels.MainViewModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace materials_management.ViewModels
 {
@@ -36,10 +42,18 @@ namespace materials_management.ViewModels
             /* Command */
             SearchCommand = new SearchCommand(SearchBtn_Click);
             CalculateRowNumbers();
+
         }
+
+     
 
 
         /* ---- dataContext 정의 ---- */
+        // 1. datagridcolumnbox 설정
+
+
+
+
         private ObservableCollection<MaterialInfoModel> _materialInfoList;
         public ObservableCollection<MaterialInfoModel> MaterialInfoList
         {
@@ -49,7 +63,6 @@ namespace materials_management.ViewModels
                 SetProperty(ref _materialInfoList, value);
                 OnPropertyChanged("MaterialInfoList");
             }
-
         }
 
 
@@ -62,12 +75,9 @@ namespace materials_management.ViewModels
 
 
 
-
-
         /* ---- Command 함수 ---- */
         // 조회 커멘드
         public ICommand SearchCommand { get; set; }
-
 
         private string _searchText1;
         public string SearchText1
@@ -78,10 +88,11 @@ namespace materials_management.ViewModels
                 if (_searchText1 != value)
                 {
                     _searchText1 = value;
-                    OnPropertyChanged("SearchText");
+                    OnPropertyChanged("SearchText1");
                 }
             }
         }
+
 
         private string _searchText2;
         public string SearchText2
@@ -134,12 +145,37 @@ namespace materials_management.ViewModels
             }
         }
 
+        private bool IsValidSearchText(string text)
+        {
+            return Regex.IsMatch(text, "^[a-zA-Z0-9]*$") && !string.IsNullOrEmpty(text) && text.Length <= 10;
+        }
+
+        private bool IsValidSearchText2(string text)
+        {
+            return Regex.IsMatch(text, "^[a-zA-Z0-9_]*$") && !string.IsNullOrEmpty(text) && text.Length <= 10;
+        }
+
+
         private void SearchBtn_Click()
         {
             string searchText1 = SearchText1;
             string searchText2 = SearchText2;
             string selectedSearchGroup = SelectedSearchGroup == "ALL" ? "" : SelectedSearchGroup;
             string selectedUseItem = SelectedSearchUseItem?.Content?.ToString() == "ALL" ? "" : SelectedSearchUseItem?.Content?.ToString();
+
+            if (!IsValidSearchText(SearchText1))
+            {
+                MessageBox.Show("자재코드는 영문과 숫자 조합, 공백과 특수문자를 제외하고 최대 10자 이내로 입력하세요.");
+                return; 
+            }
+
+            if (!IsValidSearchText2(searchText2))
+            {
+                MessageBox.Show("자재명은 영문, 숫자, _ 조합과 공백 제외 최대 10자 이내로 입력하세요.");
+                return;
+            }
+
+            
 
             MessageBox.Show($"SearchText1: {searchText1}, SearchText2: {searchText2}, SelectedItem: {selectedSearchGroup} {selectedUseItem}");
 
@@ -236,6 +272,8 @@ namespace materials_management.ViewModels
             //    MaterialInfoList.Remove(deletedMaterial);
             //}
         }
+
+        
     }
 }
 
