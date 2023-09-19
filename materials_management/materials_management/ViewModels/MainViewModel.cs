@@ -16,6 +16,8 @@ using static materials_management.ViewModels.MainViewModel;
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics.Metrics;
+using System.Globalization;
+using System.Windows.Data;
 
 namespace materials_management.ViewModels
 {
@@ -37,12 +39,20 @@ namespace materials_management.ViewModels
             SearchCommand = new SearchCommand(SearchBtn_Click);
             CalculateRowNumbers();
 
-            SelectionChangedCommand = new RelayCommand<object>(OnSelectionChanged);
-            DeleteCommand = new DeleteCommand(ExecuteDeleteCommand);
+            SelectRowCommand = new RelayCommand<object>(OnSelectionChanged);
+            // DeleteCommand = new DeleteCommand(ExecuteDeleteCommand);
+            DeleteCommand = new RelayCommand(OnDelete , () => SelectedMaterial != null);
+           
+            PropertyChanged += MainViewModel_PropertyChanged;
         }
 
 
-
+        private bool _isEditing;
+        public bool IsEditing
+        {
+            get { return _isEditing; }
+            set { SetProperty(ref _isEditing, value); }
+        }
 
 
 
@@ -193,7 +203,8 @@ namespace materials_management.ViewModels
             }
         }
 
-        public RelayCommand<object> SelectionChangedCommand { get; set; }  // 버튼이 아닌 command binding
+        
+        public RelayCommand<object> SelectRowCommand { get; set; }  // 버튼이 아닌 command binding
         private void OnSelectionChanged(object para)
         {
             var args = para as SelectionChangedEventArgs;
@@ -202,26 +213,83 @@ namespace materials_management.ViewModels
                 return;
             }
 
+            //if (args.AddedItems.Count == 0)
+            //{
+            //    MessageBox.Show("row 데이터를 가져오지 못했습니다.");
+            //}
+            //else
+            //{
+            //    var selectedMaterial = args.AddedItems[0] as MaterialInfoModel;
+            //    if (selectedMaterial != null)
+            //    {
+            //        SelectedMaterial = selectedMaterial;
+            //        MessageBox.Show($"{selectedMaterial.MaterialName}");
+            //        return;
+            //    }
+            //}
             if (args.AddedItems.Count == 0)
             {
+                SelectedMaterial = null;
                 MessageBox.Show("row 데이터를 가져오지 못했습니다.");
             }
             else
             {
-                var selectedMaterial = args.AddedItems[0] as MaterialInfoModel;
-                if (selectedMaterial != null)
-                {
-                    SelectedMaterial = selectedMaterial;
-                    MessageBox.Show($"{selectedMaterial.MaterialName}");
-                    return;
-                }
+               var row = args.AddedItems[0] as MaterialInfoModel;
+                SelectedMaterial = row;
+                MessageBox.Show($"{SelectedMaterial.MaterialName}");
             }
         }
+
+        // adding item
+        //private void OnRowSelect (object obj)
+        //{
+        //    if (obj is AddingNewItemEventArgs args)
+        //    {
+        //        args.NewItem = new MaterialInfoModel { };
+        //        MessageBox.Show($"{args}");
+        //    }
+        //}
+
+
 
 
         // 삭제 커맨드
         // 1. 삭제 버튼 클릭 command
-        public ICommand DeleteCommand { get; private set; }
+        public RelayCommand DeleteCommand { get; private set; }
+
+        // 뷰모델에서 발생하는 프로퍼티 체인지 감지
+        private void MainViewModel_PropertyChanged(object sender,  System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            MessageBox.Show("dsfdf");
+            //switch(e.PropertyName)
+            //{
+            //    case nameof(SelectedMaterial):
+            //        DeleteCommand.NotifyCanExecuteChanged();
+            //        break;
+            //}
+        }
+
+        private void OnDelete()
+        {
+            var result = MessageBox.Show("선택된 아이템을 삭제하시겠습니까?", "삭제 확인", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            IsEditing = false;
+            //var removeMember = Members.FirstOrDefault(m => m.Id == EditMember.Id);
+            //if (removeMember != null)
+            //{
+            //    Members.Remove(removeMember);
+            //}
+            SelectedMaterial = null;
+            MessageBox.Show("확인");
+        }
+
+
+
+
+
         private void ExecuteDeleteCommand()
         {
             var confirmationWindow = new DeleteWindow();

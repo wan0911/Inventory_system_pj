@@ -25,5 +25,6 @@ namespace materials_management.ViewModels.Commands
             _execute.Invoke();
         }
     }
+
 }
 

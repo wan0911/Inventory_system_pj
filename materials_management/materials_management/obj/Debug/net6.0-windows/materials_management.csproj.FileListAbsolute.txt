@@ -87,3 +87,4 @@ C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management
 C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\Views\DeleteWindow.baml
 C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\94101981\Desktop\git\git_files\Inventory_system_pj\materials_management\materials_management\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
