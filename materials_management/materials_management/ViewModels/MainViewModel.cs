@@ -40,9 +40,8 @@ namespace materials_management.ViewModels
             CalculateRowNumbers();
 
             SelectRowCommand = new RelayCommand<object>(OnSelectionChanged);
-            // DeleteCommand = new DeleteCommand(ExecuteDeleteCommand);
-            DeleteCommand = new RelayCommand(OnDelete , () => SelectedMaterial != null);
-           
+            DeleteCommand = new RelayCommand(OnDelete , () => SelectedMaterial != null);    // SelectedMaterial에 행 데이터가 들어오면 활성화
+
             PropertyChanged += MainViewModel_PropertyChanged;
         }
 
@@ -54,6 +53,17 @@ namespace materials_management.ViewModels
             set { SetProperty(ref _isEditing, value); }
         }
 
+        /* 뷰모델에서 발생하는 프로퍼티 체인지 감지
+           뷰 -> 사용자 인터렉션 -> 뷰모델에서 설정된 함수에 따라 프로퍼티 변경 */
+        private void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedMaterial):
+                    DeleteCommand.NotifyCanExecuteChanged();  // 행 선택 -> 선택된 행 = material 프로퍼티 변화 -> deletecommand에서 감지 
+                    break;
+            }
+        }
 
 
         /* ------- dataContext 정의 ------- */
@@ -188,7 +198,8 @@ namespace materials_management.ViewModels
 
 
 
-        /* datagrid 행 선택 커멘드 --> + 삭제 커맨드, 수정 커맨드, 추가 커맨드 */
+        /* datagrid 행 선택 커멘드
+          + 삭제 커맨드, 수정 커맨드, 추가 커맨드 */
         private MaterialInfoModel _selectedMaterial;
         public MaterialInfoModel SelectedMaterial
         {
@@ -202,7 +213,6 @@ namespace materials_management.ViewModels
                 }
             }
         }
-
         
         public RelayCommand<object> SelectRowCommand { get; set; }  // 버튼이 아닌 command binding
         private void OnSelectionChanged(object para)
@@ -213,20 +223,6 @@ namespace materials_management.ViewModels
                 return;
             }
 
-            //if (args.AddedItems.Count == 0)
-            //{
-            //    MessageBox.Show("row 데이터를 가져오지 못했습니다.");
-            //}
-            //else
-            //{
-            //    var selectedMaterial = args.AddedItems[0] as MaterialInfoModel;
-            //    if (selectedMaterial != null)
-            //    {
-            //        SelectedMaterial = selectedMaterial;
-            //        MessageBox.Show($"{selectedMaterial.MaterialName}");
-            //        return;
-            //    }
-            //}
             if (args.AddedItems.Count == 0)
             {
                 SelectedMaterial = null;
@@ -235,55 +231,39 @@ namespace materials_management.ViewModels
             else
             {
                var row = args.AddedItems[0] as MaterialInfoModel;
-                SelectedMaterial = row;
-                MessageBox.Show($"{SelectedMaterial.MaterialName}");
+                if (row != null)
+                {
+                    SelectedMaterial = row;     // 프로퍼티로 접근해서 값 
+                    MessageBox.Show($"{SelectedMaterial.MaterialName}");
+                    return;
+                }
+                
             }
         }
-
-        // adding item
-        //private void OnRowSelect (object obj)
-        //{
-        //    if (obj is AddingNewItemEventArgs args)
-        //    {
-        //        args.NewItem = new MaterialInfoModel { };
-        //        MessageBox.Show($"{args}");
-        //    }
-        //}
 
 
 
 
         // 삭제 커맨드
-        // 1. 삭제 버튼 클릭 command
         public RelayCommand DeleteCommand { get; private set; }
-
-        // 뷰모델에서 발생하는 프로퍼티 체인지 감지
-        private void MainViewModel_PropertyChanged(object sender,  System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            MessageBox.Show("dsfdf");
-            //switch(e.PropertyName)
-            //{
-            //    case nameof(SelectedMaterial):
-            //        DeleteCommand.NotifyCanExecuteChanged();
-            //        break;
-            //}
-        }
-
         private void OnDelete()
         {
             var result = MessageBox.Show("선택된 아이템을 삭제하시겠습니까?", "삭제 확인", MessageBoxButton.YesNo);
+            // No 클릭
             if (result == MessageBoxResult.No)
             {
                 return;
             }
-            IsEditing = false;
-            //var removeMember = Members.FirstOrDefault(m => m.Id == EditMember.Id);
-            //if (removeMember != null)
-            //{
-            //    Members.Remove(removeMember);
-            //}
-            SelectedMaterial = null;
-            MessageBox.Show("확인");
+            // Yes 클릭
+            else
+            {
+                var removeRowData = SelectedMaterial;
+                if (removeRowData != null)
+                {
+                    SelectedMaterial.Status = "Delete";
+                    SelectedMaterial = null;
+                }
+            }
         }
 
 
@@ -338,6 +318,20 @@ namespace materials_management.ViewModels
         {
 
         }
+
+
+
+
+        // adding item
+        //private void OnRowSelect (object obj)
+        //{
+        //    if (obj is AddingNewItemEventArgs args)
+        //    {
+        //        args.NewItem = new MaterialInfoModel { };
+        //        MessageBox.Show($"{args}");
+        //    }
+        //}
+
 
     }
 }
