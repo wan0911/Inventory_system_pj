@@ -40,12 +40,7 @@
 
         <Canvas Margin="51,162,31,22">
             <Button x:Name="MaterialGroupBtn" Content="자재그룹 관리" Background="#FF797979" Canvas.Left="979" Canvas.Top="10" Width="96" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" />
-            <Button Content="추가" Background="#FF797979" Canvas.Left="1080" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" >
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ei:CallMethodAction TargetObject="{Binding}" MethodName="AddNewRow" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <Button Content="추가" Command="{Binding AddRowCommand}" Background="#FF797979" Canvas.Left="1080" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" >
             </Button>
             <Button Content="삭제" Command="{Binding DeleteCommand}"  
                     Background="#FF797979" Canvas.Left="1140" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}"

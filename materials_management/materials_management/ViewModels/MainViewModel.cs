@@ -40,10 +40,14 @@ namespace materials_management.ViewModels
             CalculateRowNumbers();
 
             SelectRowCommand = new RelayCommand<object>(OnSelectionChanged);
-            DeleteCommand = new RelayCommand(OnDelete , () => SelectedMaterial != null);    // SelectedMaterial에 행 데이터가 들어오면 활성화
+            DeleteCommand = new RelayCommand(OnDelete, () => SelectedMaterial != null);    // SelectedMaterial에 행 데이터가 들어오면 활성화
+            AddRowCommand = new RelayCommand(AddRow);
+
 
             PropertyChanged += MainViewModel_PropertyChanged;
         }
+
+
 
 
         private bool _isEditing;
@@ -68,8 +72,6 @@ namespace materials_management.ViewModels
 
         /* ------- dataContext 정의 ------- */
         // 1. datagridcolumnbox 설정
-
-
         private ObservableCollection<MaterialInfoModel> _materialInfoList;
         public ObservableCollection<MaterialInfoModel> MaterialInfoList
         {
@@ -182,7 +184,7 @@ namespace materials_management.ViewModels
             if (!IsValidSearchText(SearchText1))
             {
                 MessageBox.Show("자재코드는 영문과 숫자 조합, 공백과 특수문자를 제외하고 최대 10자 이내로 입력하세요.");
-                return; 
+                return;
             }
 
             if (!IsValidSearchText2(searchText2))
@@ -198,8 +200,10 @@ namespace materials_management.ViewModels
 
 
 
-        /* datagrid 행 선택 커멘드
-          + 삭제 커맨드, 수정 커맨드, 추가 커맨드 */
+
+
+        /* 행 선택 커멘드
+           + 삭제 커맨드, 수정 커맨드, 추가 커맨드 */
         private MaterialInfoModel _selectedMaterial;
         public MaterialInfoModel SelectedMaterial
         {
@@ -213,7 +217,7 @@ namespace materials_management.ViewModels
                 }
             }
         }
-        
+
         public RelayCommand<object> SelectRowCommand { get; set; }  // 버튼이 아닌 command binding
         private void OnSelectionChanged(object para)
         {
@@ -230,21 +234,19 @@ namespace materials_management.ViewModels
             }
             else
             {
-               var row = args.AddedItems[0] as MaterialInfoModel;
+                var row = args.AddedItems[0] as MaterialInfoModel;
                 if (row != null)
                 {
                     SelectedMaterial = row;     // 프로퍼티로 접근해서 값 
                     MessageBox.Show($"{SelectedMaterial.MaterialName}");
                     return;
                 }
-                
+
             }
         }
 
 
-
-
-        // 삭제 커맨드
+        // 행 삭제 커맨드
         public RelayCommand DeleteCommand { get; private set; }
         private void OnDelete()
         {
@@ -261,6 +263,7 @@ namespace materials_management.ViewModels
                 if (removeRowData != null)
                 {
                     SelectedMaterial.Status = "Delete";
+                    MessageBox.Show("상태:Delete로 업데이트 되었습니다.");
                     SelectedMaterial = null;
                 }
             }
@@ -269,38 +272,37 @@ namespace materials_management.ViewModels
 
 
 
+        //private void ExecuteDeleteCommand()
+        //{
+        //    var confirmationWindow = new DeleteWindow();
+        //    confirmationWindow.Owner = Application.Current.MainWindow;
 
-        private void ExecuteDeleteCommand()
-        {
-            var confirmationWindow = new DeleteWindow();
-            confirmationWindow.Owner = Application.Current.MainWindow;
+        //    if (SelectedMaterial != null)
+        //    {
+        //        string materialCode = SelectedMaterial.MaterialCode;
 
-            if (SelectedMaterial != null)
-            {
-                string materialCode = SelectedMaterial.MaterialCode;
+        //        confirmationWindow.ShowDialog();  // 삭제폼 실행
 
-                confirmationWindow.ShowDialog();  // 삭제폼 실행
+        //        if (confirmationWindow.IsConfirmed) // Yes
+        //        {
+        //            SelectedMaterial.Status = "Delete";  
+        //            OnPropertyChanged(nameof(SelectedMaterial.Status));  // 데이터 바인딩 업데이트
 
-                if (confirmationWindow.IsConfirmed) // Yes
-                {
-                    SelectedMaterial.Status = "Delete";  
-                    OnPropertyChanged(nameof(SelectedMaterial.Status));  // 데이터 바인딩 업데이트
+        //            MessageBox.Show("상태:Delete로 업데이트 되었습니다.");
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("삭제가 취소되었습니다.");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("행에 대한 데이터가 없습니다.");
+        //        return;
+        //    }
+        //}
 
-                    MessageBox.Show("상태:Delete로 업데이트 되었습니다.");
-                }
-                else
-                {
-                    MessageBox.Show("삭제가 취소되었습니다.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("행에 대한 데이터가 없습니다.");
-                return;
-            }
-        }
 
-      
 
         //// 삭제 후 자재 목록을 업데이트 -> 저장 버튼 클릭 시로 변경
         //var deletedMaterial = MaterialInfoList.FirstOrDefault(m => m.MaterialCode == materialCode);
@@ -313,25 +315,23 @@ namespace materials_management.ViewModels
 
 
 
-        // 새로운 행 추가 기능 
-        public void AddNewRow()
+        // 행 추가 커멘드 
+        public ICommand AddRowCommand { get; }
+        private void AddRow()
         {
-
+            if (SelectedMaterial != null)
+            {
+                // 선택한 행... 
+                int selectedIndex = MaterialInfoList.IndexOf(SelectedMaterial);
+                
+                if (selectedIndex >= 0)
+                {
+                    MaterialInfoList.Insert(selectedIndex + 1, new MaterialInfoModel()); // 새로운 항목 추가
+                    MaterialInfoModel newRow = MaterialInfoList[selectedIndex + 1];
+                    newRow.Status = "New";
+                }
+            }
         }
-
-
-
-
-        // adding item
-        //private void OnRowSelect (object obj)
-        //{
-        //    if (obj is AddingNewItemEventArgs args)
-        //    {
-        //        args.NewItem = new MaterialInfoModel { };
-        //        MessageBox.Show($"{args}");
-        //    }
-        //}
-
 
     }
 }
