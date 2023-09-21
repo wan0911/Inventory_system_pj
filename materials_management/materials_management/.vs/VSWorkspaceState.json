@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Models",
     "\\ViewModels",
+    "\\ViewModels\\Commands",
     "\\Views"
   ],
-  "SelectedNode": "\\materials_management.csproj",
+  "SelectedNode": "\\Views\\MainWindow.xaml",
   "PreviewInSolutionExplorer": false
 }

@@ -41,8 +41,9 @@ namespace materials_management.ViewModels
 
             SelectRowCommand = new RelayCommand<object>(OnSelectionChanged);
             DeleteCommand = new RelayCommand(OnDelete, () => SelectedMaterial != null);    // SelectedMaterial에 행 데이터가 들어오면 활성화
-            AddRowCommand = new RelayCommand(AddRow, () => IsAdding != false);
 
+            AddRowCommand = new RelayCommand(AddRow, () => IsAdding != false);
+            //NewCommand = new NewComand(AddRow, InputRowData); // 커멘드 재적용 중
 
             PropertyChanged += MainViewModel_PropertyChanged;
         }
@@ -306,66 +307,7 @@ namespace materials_management.ViewModels
 
 
         // 행 추가 커멘드 
-        //private bool _isAdding = true;
-        //public bool IsAdding
-        //{
-        //    get { return _isAdding; }
-        //    set { SetProperty(ref _isAdding, value); }
-        //}
-
-        //private MaterialInfoModel _addedMaterial;
-        //public MaterialInfoModel AddedMaterial
-        //{
-        //    get { return _addedMaterial; }
-        //    set
-        //    {
-        //        if (_addedMaterial != value)
-        //        {
-        //            _addedMaterial = value;
-        //            OnPropertyChanged(nameof(_addedMaterial));
-        //        }
-        //    }
-        //}
-
-
-        //public ICommand AddRowCommand { get; }
-        //private void AddRow()
-        //{
-        //    if (SelectedMaterial != null)
-        //    {
-        //        int selectedIndex = MaterialInfoList.IndexOf(SelectedMaterial);
-
-        //        if (selectedIndex >= 0)
-        //        {
-        //            // 새로운 행 지정
-        //            MaterialInfoList.Insert(selectedIndex + 1, new MaterialInfoModel());
-        //            //MaterialInfoModel newRow = MaterialInfoList[selectedIndex + 1];
-        //            //newRow.Status = "New";
-
-        //            // newRow에 데이터가 모두 입력될 때까지, 새로운 행 추가 막기 -> 버튼 활성화를 막기
-        //            // 1. newRow에 대한 프로퍼티를 설정하고, 데이터 존재 여부에 따라 버튼 활성화
-        //            AddedMaterial = MaterialInfoList[selectedIndex + 1];
-        //            AddedMaterial.Status = "New";
-
-
-        //            if (!string.IsNullOrEmpty(AddedMaterial.MaterialCode) || !string.IsNullOrEmpty(AddedMaterial.MaterialName)
-        //                || !string.IsNullOrEmpty(AddedMaterial.MaterialGroupName) || !string.IsNullOrEmpty(AddedMaterial.MaterialCreateDate))
-        //            {
-        //                IsAdding = false;
-        //                // db에 데이터 저장
-        //                AddedMaterial = null;
-        //            }
-
-        //            MessageBox.Show($"모든 데이터 입력 성공 {AddedMaterial.MaterialName}");
-
-
-        //            // 2. bool 조건으로 막기
-        //        }
-        //    }
-        //}
-
-
-        private bool _isAdding = true; // 초기에 비활성화 상태
+        private bool _isAdding = true;
         public bool IsAdding
         {
             get { return _isAdding; }
@@ -381,26 +323,13 @@ namespace materials_management.ViewModels
                 if (_addedMaterial != value)
                 {
                     _addedMaterial = value;
-                    OnPropertyChanged(nameof(AddedMaterial));
-                    //CheckIfAllDataEntered(); // AddedMaterial 변경 시 데이터 입력 여부 확인
+                    OnPropertyChanged(nameof(_addedMaterial));
                 }
             }
         }
 
+
         public ICommand AddRowCommand { get; }
-
-        private void CheckIfAllDataEntered()
-        {
-            // 모든 데이터가 입력되었는지 확인
-            bool allDataEntered = !string.IsNullOrEmpty(AddedMaterial.MaterialCode)
-                && !string.IsNullOrEmpty(AddedMaterial.MaterialName)
-                && !string.IsNullOrEmpty(AddedMaterial.MaterialGroupName)
-                && !string.IsNullOrEmpty(AddedMaterial.MaterialCreateDate);
-
-            // IsAdding 속성 업데이트
-            IsAdding = allDataEntered;
-        }
-
         private void AddRow()
         {
             if (SelectedMaterial != null)
@@ -411,21 +340,143 @@ namespace materials_management.ViewModels
                 {
                     // 새로운 행 지정
                     MaterialInfoList.Insert(selectedIndex + 1, new MaterialInfoModel());
-                    IsAdding = false;
+                    //MaterialInfoModel newRow = MaterialInfoList[selectedIndex + 1];
+                    //newRow.Status = "New";
+
+                    // newRow에 데이터가 모두 입력될 때까지, 새로운 행 추가 막기 -> 버튼 활성화를 막기
+                    // 1. newRow에 대한 프로퍼티를 설정하고, 데이터 존재 여부에 따라 버튼 활성화
                     AddedMaterial = MaterialInfoList[selectedIndex + 1];
                     AddedMaterial.Status = "New";
 
-                    // 모든 데이터가 입력되었는지 확인
-                    bool allDataEntered = !string.IsNullOrEmpty(AddedMaterial.MaterialCode)
-                        && !string.IsNullOrEmpty(AddedMaterial.MaterialName)
-                        && !string.IsNullOrEmpty(AddedMaterial.MaterialGroupName)
-                        && !string.IsNullOrEmpty(AddedMaterial.MaterialCreateDate);
 
-                    // IsAdding 속성 업데이트
-                    IsAdding = allDataEntered;
+                    //if (!string.IsNullOrEmpty(AddedMaterial.MaterialCode) || !string.IsNullOrEmpty(AddedMaterial.MaterialName)
+                    //    || !string.IsNullOrEmpty(AddedMaterial.MaterialGroupName) || !string.IsNullOrEmpty(AddedMaterial.MaterialCreateDate))
+                    //{
+                    //    IsAdding = false;
+                    //    // db에 데이터 저장
+                    //    AddedMaterial = null;
+                    //}
+
+                    //MessageBox.Show($"모든 데이터 입력 성공 {AddedMaterial.MaterialName}");
+                    // 2. bool 조건으로 막기
                 }
             }
         }
+
+
+        //private bool _isAdding = true; // 초기에 활성화 상태
+        //public bool IsAdding
+        //{
+        //    get { return _isAdding; }
+        //    set { SetProperty(ref _isAdding, value); }
+        //}
+
+        //private MaterialInfoModel _addedMaterial;
+        //public MaterialInfoModel AddedMaterial
+        //{
+        //    get { return _addedMaterial; }
+        //    set
+        //    {
+        //        if (_addedMaterial != value)
+        //        {
+        //            _addedMaterial = value;
+        //            OnPropertyChanged(nameof(AddedMaterial));
+        //            CheckIfAllDataEntered(); // AddedMaterial 변경 시 데이터 입력 여부 확인
+        //        }
+        //    }
+        //}
+
+        //public ICommand AddRowCommand { get; }
+
+
+        //private void AddRow()
+        //{
+        //    if (SelectedMaterial != null)
+        //    {
+        //        int selectedIndex = MaterialInfoList.IndexOf(SelectedMaterial);
+
+        //        if (selectedIndex >= 0)
+        //        {
+        //            // 새로운 행 지정
+        //            MaterialInfoList.Insert(selectedIndex + 1, new MaterialInfoModel());
+        //            IsAdding = false;
+        //            AddedMaterial = MaterialInfoList[selectedIndex + 1];
+        //            AddedMaterial.Status = "New";
+
+        //            // 모든 데이터가 입력되었는지 확인
+        //            bool allDataEntered = !string.IsNullOrEmpty(AddedMaterial.MaterialCode)
+        //                && !string.IsNullOrEmpty(AddedMaterial.MaterialName)
+        //                && !string.IsNullOrEmpty(AddedMaterial.MaterialGroupName)
+        //                && !string.IsNullOrEmpty(AddedMaterial.MaterialCreateDate);
+
+        //            // IsAdding 속성 업데이트
+        //            IsAdding = allDataEntered;
+        //        }
+        //    }
+        //}
+
+
+
+        //public NewComand NewCommand { get; set; }
+
+        //private void AddRow()
+        //{
+        //    if (SelectedMaterial != null)
+        //    {
+        //        int selectedIndex = MaterialInfoList.IndexOf(SelectedMaterial);
+
+        //        if (selectedIndex >= 0)
+        //        {
+        //            // 새로운 행 지정
+        //            MaterialInfoList.Insert(selectedIndex + 1, new MaterialInfoModel());
+        //            //IsAdding = false;
+        //            AddedMaterial = MaterialInfoList[selectedIndex + 1];
+        //            AddedMaterial.Status = "New";
+        //        }
+        //    }
+        //}
+
+
+
+
+
+        //public bool InputRowData(MaterialInfoModel newRowInfo)
+        //{
+        //    if (newRowInfo != null)
+        //    {
+        //        // 여기서 newRowInfo의 Name과 Code에 대한 유효성 검사를 수행합니다.
+        //        if (!string.IsNullOrWhiteSpace(newRowInfo.MaterialName) && !string.IsNullOrWhiteSpace(newRowInfo.MaterialCode))
+        //        {
+        //            return true; // Name과 Code가 입력되었으면 추가 버튼 활성화
+        //        }
+        //    }
+
+        //    return false; // 유효성 검사를 통과하지 못하면 추가 버튼 비활성화
+        //}
+
+
+        //public bool CanAddRow(MaterialInfoModel newRowInfo)
+        //{
+        //    return InputRowData(newRowInfo);
+        //}
+
+        //private void AddRow()
+        //{
+        //    if (SelectedMaterial != null)
+        //    {
+        //        int selectedIndex = MaterialInfoList.IndexOf(SelectedMaterial);
+
+        //        if (selectedIndex >= 0)
+        //        {
+        //            // 새로운 행 지정
+        //            MaterialInfoModel newMaterial = new MaterialInfoModel();
+        //            MaterialInfoList.Insert(selectedIndex + 1, newMaterial);
+        //            newMaterial.Status = "New";
+
+        //            IsAdding = false;
+        //        }
+        //    }
+        //}
 
 
 
