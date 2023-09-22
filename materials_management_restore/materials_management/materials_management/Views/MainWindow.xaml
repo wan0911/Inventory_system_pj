@@ -24,7 +24,7 @@
             <TextBox x:Name="MaterialNameSearchTxt" Text="{Binding SearchText2, Mode=TwoWay}"  Height="22"  FontSize="12" VerticalContentAlignment="Center" Canvas.Left="371" TextWrapping="Wrap" Canvas.Top="18" Width="135" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <TextBlock TextWrapping="Wrap" Text="자재그룹" RenderTransformOrigin="0.321,0.69" Canvas.Left="579" Canvas.Top="23" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <!-- 콤보박스의 바인딩 소스가 string-->
-            <ComboBox x:Name="MGSearchCombo" ItemsSource="{Binding CodeNameCombo}" SelectedItem="{Binding SelectedSearchGroup, Mode=TwoWay}" Width="120" Canvas.Left="649" Canvas.Top="18" />
+            <ComboBox x:Name="MGSearchCombo" ItemsSource="{Binding CodeNameCombo}" SelectedItem="{Binding SelectedSearchGroup, Mode=TwoWay}" Width="120" Canvas.Left="649" Canvas.Top="18" SelectedIndex="1" />
             <TextBlock TextWrapping="Wrap" Text="사용여부" RenderTransformOrigin="0.321,0.69" Canvas.Left="856" Canvas.Top="23" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox x:Name="MaterialUseCombo" SelectedItem="{Binding SelectedSearchUseItem, Mode=TwoWay}" Width="120" Canvas.Left="926" Canvas.Top="18" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <ComboBoxItem Content="ALL" />
@@ -40,7 +40,7 @@
 
         <Canvas Margin="51,162,31,22">
             <Button x:Name="MaterialGroupBtn" Content="자재그룹 관리" Background="#FF797979" Canvas.Left="979" Canvas.Top="10" Width="96" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" />
-            <Button Content="추가" Command="{Binding AddRowCommand}" IsEnabled="{Binding IsButtonEnabled}"  Background="#FF797979" Canvas.Left="1080" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" >
+            <Button Content="추가" Command="{Binding AddRowCommand}"  Background="#FF797979" Canvas.Left="1080" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}" >
             </Button>
             <Button Content="삭제" Command="{Binding DeleteCommand}"  
                     Background="#FF797979" Canvas.Left="1140" Canvas.Top="10" Width="55" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" FontWeight="Bold" BorderBrush="{x:Null}"
@@ -50,7 +50,7 @@
             <!-- 데이터 뷰 -->
             <DataGrid  x:Name="materialDataGrid" ItemsSource="{Binding MaterialInfoList}"  CanUserReorderColumns="False" CanUserSortColumns="True" SelectionMode="Single" 
                        SelectionUnit="FullRow" Height="397" Width="1186"  Canvas.Top="42" Canvas.Left="10" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False"
-                       HorizontalGridLinesBrush="#FFDADADA" VerticalGridLinesBrush="#FFDADADA" BorderBrush="#FFE6EAEA"
+                       HorizontalGridLinesBrush="#FFDADADA" VerticalGridLinesBrush="#FFDADADA" BorderBrush="#FFE6EAEA" SelectedIndex="0"
                        >
                 <b:Interaction.Triggers>
                     <b:EventTrigger EventName="SelectionChanged">

@@ -83,6 +83,8 @@ namespace materials_management.Models
 
 
         [ObservableProperty]
+        [Required]
+        [MaxLength(10)]
         private string _materialCode;            // 자재코드
 
         [ObservableProperty]

@@ -53,6 +53,7 @@ namespace materials_management.Models
 
         public void Connect()
         {
+
             connectionString = string.Format("Data Source={0};Initial Catalog={1};User ID={2};Password={3};", DbSource, DbName, DbUser, DbPassword);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -113,6 +114,7 @@ namespace materials_management.Models
 
 
         // 코드명만 가져오도록 수정
+        // -> property로 mainview에서 갖고오도록 수정
         public ObservableCollection<string> GetCodeNames()
         {
             string sql = "SELECT DISTINCT CODE_NAME FROM com_code";

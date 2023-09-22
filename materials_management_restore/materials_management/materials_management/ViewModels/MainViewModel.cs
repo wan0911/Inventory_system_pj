@@ -79,7 +79,8 @@ namespace materials_management.ViewModels
             get { return _materialInfoList; }
             set
             {
-                SetProperty(ref _materialInfoList, value);
+                _materialInfoList = value;
+                //SetProperty(ref _materialInfoList, value);
                 OnPropertyChanged("MaterialInfoList");
             }
         }
@@ -240,9 +241,7 @@ namespace materials_management.ViewModels
                 if (row != null)
                 {
                     SelectedMaterial = row;     // 프로퍼티로 접근해서 값 
-                    MessageBox.Show($"{SelectedMaterial.MaterialName}");
-
-                    IsAdding = true;
+                    MessageBox.Show($"선택된 행: {SelectedMaterial.MaterialName}");
 
                     return;
                 }
@@ -277,41 +276,9 @@ namespace materials_management.ViewModels
 
 
 
-        //private void ExecuteDeleteCommand()
-        //{
-        //    var confirmationWindow = new DeleteWindow();
-        //    confirmationWindow.Owner = Application.Current.MainWindow;
-
-        //    if (SelectedMaterial != null)
-        //    {
-        //        string materialCode = SelectedMaterial.MaterialCode;
-
-        //        confirmationWindow.ShowDialog();  // 삭제폼 실행
-
-        //        if (confirmationWindow.IsConfirmed) // Yes
-        //        {
-        //            SelectedMaterial.Status = "Delete";  
-        //            OnPropertyChanged(nameof(SelectedMaterial.Status));  // 데이터 바인딩 업데이트
-
-        //            MessageBox.Show("상태:Delete로 업데이트 되었습니다.");
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("삭제가 취소되었습니다.");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("행에 대한 데이터가 없습니다.");
-        //        return;
-        //    }
-        //}
-
-
-
 
         // 행 추가 커멘드 
-        private bool _isAdding = false; // 초기에 비활성화 상태
+        private bool _isAdding = true; // 초기에 비활성화 상태
         public bool IsAdding
         {
             get { return _isAdding; }
